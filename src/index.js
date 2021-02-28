@@ -1,12 +1,24 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./index.css";
-import App from "./components/App";
+import { AuthContext } from "./utils/auth";
 import reportWebVitals from "./reportWebVitals";
+import Public from "./views/public";
+import Admin from "./views/private/Admin";
+import Login from "./views/private/Login";
 
 ReactDOM.render(
   <StrictMode>
-    <App />
+    <AuthContext>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={Public} />
+          <Route exact path="/admin" component={Admin} />
+          <Route exact path="/login" component={Login} />
+        </Switch>
+      </BrowserRouter>
+    </AuthContext>
   </StrictMode>,
   document.getElementById("root")
 );

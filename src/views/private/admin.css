@@ -1,0 +1,28 @@
+#root {
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+.admin-header {
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: #444;
+  color: #fff;
+}
+
+.admin-header > div {
+  padding: 1em;
+}
+
+.admin-header-title {
+  flex-grow: 1;
+  font-weight: 500;
+}
+
+.admin-container {
+  flex-grow: 1;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 1em;
+}

@@ -5,7 +5,7 @@ import Home from "./Home";
 import Location from "./Location";
 import Rsvp from "./Rsvp";
 
-const App = () => (
+const Public = () => (
   <ReactFullpage
     navigation
     anchors={["home", "location", "confirmation", "reward"]}
@@ -22,4 +22,4 @@ const App = () => (
   />
 );
 
-export default App;
+export default Public;

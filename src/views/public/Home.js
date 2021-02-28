@@ -1,5 +1,5 @@
 import React from "react";
-import Counter from "./Counter";
+import Counter from "../../components/Counter";
 
 const Home = () => {
   const date = new Date("2021-05-23T15:00:00Z");

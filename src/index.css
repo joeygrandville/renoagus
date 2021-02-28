@@ -1,4 +1,4 @@
-@import url("http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
+@import url("https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,600,300italic");
 @import url("https://fonts.googleapis.com/css?family=Khand:300,400,500,600,700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Oswald");
@@ -424,6 +424,7 @@ footer a:visited:hover {
   -webkit-text-fill-color: transparent;
 }
 
+input.login,
 .confirmation-field > input {
   font-family: "Khand", sans-serif !important;
   font-weight: bold;
@@ -436,6 +437,10 @@ footer a:visited:hover {
   border-width: 1px;
   transition: all 0.2s linear;
   margin-bottom: 5px;
+}
+
+input.login {
+  display: block;
 }
 
 .confirmation-field.validation > input[type="text"] {
@@ -639,4 +644,38 @@ footer a:visited:hover {
 .reward-container h1,
 .reward-container h3 {
   color: white;
+}
+
+/* Login */
+.login-container {
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 0 -2em;
+  align-items: center;
+}
+
+.login-container > div {
+  width: 50%;
+  padding: 0 1em;
+}
+
+/* LinkButton */
+.lb-root {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+.lb-blue {
+  color: #1599bc !important;
+}
+.lb-underline {
+  text-decoration: underline;
+}
+.lb-disabled {
+  color: rgba(0, 0, 0, 0.36) !important;
+  cursor: initial !important;
 }
