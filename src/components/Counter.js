@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 
 const parse = (val) => {
-  if (!val) return undefined;
+  if (!val && val !== 0) return undefined;
   if (val.toString().length === 1) return `0${val}`;
   return val;
 };
