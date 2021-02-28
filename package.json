@@ -4,6 +4,8 @@
   "private": false,
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@fullpage/react-fullpage": "^0.1.19",
+    "@react-google-maps/api": "^2.1.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
