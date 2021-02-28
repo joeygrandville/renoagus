@@ -28,7 +28,8 @@ const Location = () => {
             <InfoWindow position={options.center}>
               <div id="iw-container" className="map-marker">
                 <h1>Agustín y Renata</h1>
-                <h3>23 de Mayo</h3>Salta, Argentina
+                <h3>23 de Mayo</h3>
+                Hostal Castellanos - Salta, Argentina
               </div>
             </InfoWindow>
           </GoogleMap>
