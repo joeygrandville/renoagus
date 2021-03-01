@@ -1,12 +1,12 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import "./index.css";
 import { AuthContext } from "./utils/auth";
 import reportWebVitals from "./reportWebVitals";
 import Public from "./views/public";
-import Admin from "./views/private/Admin";
+import Admin from "./views/private";
 import Login from "./views/private/Login";
+import "./index.css";
 
 ReactDOM.render(
   <StrictMode>

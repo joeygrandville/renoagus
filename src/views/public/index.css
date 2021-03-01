@@ -1,0 +1,511 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  color: #000;
+}
+
+body {
+  color: #444;
+  font-weight: 300;
+  line-height: 1.4em;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  color: #666;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1em;
+  white-space: pre;
+  word-wrap: normal;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+pre > code {
+  background-color: transparent;
+  color: #666;
+}
+
+code {
+  background-color: #fff0f0;
+  color: #dd2200;
+}
+/**
+  * Layout
+  */
+.container {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 1em 2em;
+}
+
+i {
+  margin-right: 5px;
+}
+
+a.pure-button {
+  text-decoration: none !important;
+}
+
+.gh-btns {
+  min-width: 340px;
+}
+
+blockquote {
+  border-left: 8px solid #ddd;
+  margin: 0 !important;
+  padding: 1em 40px;
+  font-size: 0.94em;
+}
+/**
+  * Main module
+  */
+main [class*="pure-u-"]:last-child article {
+  padding-right: 0;
+}
+
+.main-countdown {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.main-countdown .countdown-container {
+  height: 130px;
+  display: flex;
+  justify-content: space-around;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.main-countdown .time {
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  height: 95px;
+  width: 65px;
+  -webkit-perspective: 479px;
+  -moz-perspective: 479px;
+  -ms-perspective: 479px;
+  -o-perspective: 479px;
+  perspective: 479px;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+.main-countdown .count {
+  background: #202020;
+  color: #f8f8f8;
+  display: block;
+  font-family: "Oswald", sans-serif;
+  font-size: 2em;
+  line-height: 2.4em;
+  overflow: hidden;
+  position: absolute;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  top: 0;
+  width: 100%;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-transform-style: flat;
+  -moz-transform-style: flat;
+  -ms-transform-style: flat;
+  -o-transform-style: flat;
+  transform-style: flat;
+}
+
+.main-countdown .count.top {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px 5px 0 0;
+  height: 50%;
+  -webkit-transform-origin: 50% 100%;
+  -moz-transform-origin: 50% 100%;
+  -ms-transform-origin: 50% 100%;
+  -o-transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
+}
+
+.main-countdown .count.bottom {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.1), transparent);
+  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.1), transparent);
+  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.1), transparent);
+  background-image: -ms-linear-gradient(rgba(255, 255, 255, 0.1), transparent);
+  background-image: -o-linear-gradient(rgba(255, 255, 255, 0.1), transparent);
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  border-radius: 0 0 5px 5px;
+  line-height: 0;
+  height: 50%;
+  top: 50%;
+  -webkit-transform-origin: 50% 0;
+  -moz-transform-origin: 50% 0;
+  -ms-transform-origin: 50% 0;
+  -o-transform-origin: 50% 0;
+  transform-origin: 50% 0;
+}
+
+.main-countdown .label {
+  font-size: normal;
+  margin-top: 5px;
+  display: block;
+  position: absolute;
+  top: 95px;
+  width: 100%;
+}
+/* Animation start */
+.main-countdown .count.curr.top {
+  -webkit-transform: rotateX(0deg);
+  -moz-transform: rotateX(0deg);
+  -ms-transform: rotateX(0deg);
+  -o-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+  z-index: 3;
+}
+
+.main-countdown .count.next.bottom {
+  -webkit-transform: rotateX(90deg);
+  -moz-transform: rotateX(90deg);
+  -ms-transform: rotateX(90deg);
+  -o-transform: rotateX(90deg);
+  transform: rotateX(90deg);
+  z-index: 2;
+}
+/* Animation end */
+.main-countdown .flip .count.curr.top {
+  -webkit-transition: all 250ms ease-in-out;
+  -moz-transition: all 250ms ease-in-out;
+  -ms-transition: all 250ms ease-in-out;
+  -o-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+  -webkit-transform: rotateX(-90deg);
+  -moz-transform: rotateX(-90deg);
+  -ms-transform: rotateX(-90deg);
+  -o-transform: rotateX(-90deg);
+  transform: rotateX(-90deg);
+}
+
+.main-countdown .flip .count.next.bottom {
+  -webkit-transition: all 250ms ease-in-out 250ms;
+  -moz-transition: all 250ms ease-in-out 250ms;
+  -ms-transition: all 250ms ease-in-out 250ms;
+  -o-transition: all 250ms ease-in-out 250ms;
+  transition: all 250ms ease-in-out 250ms;
+  -webkit-transform: rotateX(0deg);
+  -moz-transform: rotateX(0deg);
+  -ms-transform: rotateX(0deg);
+  -o-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+}
+/**
+  * Footer module
+  */
+footer {
+  border-top: 1px solid #eee;
+  color: #777;
+  line-height: 1.8;
+  font-size: small;
+  text-align: center;
+}
+s footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+footer li {
+  display: inline-block;
+}
+
+footer li:after {
+  content: "   |  ";
+}
+
+footer li:last-child:after {
+  content: "";
+}
+
+footer a,
+footer a:link,
+footer a:visited {
+  color: #444;
+  text-decoration: underline;
+}
+
+footer a:hover,
+footer a:active,
+footer a:visited:hover {
+  color: #000;
+  text-decoration: underline;
+}
+/**
+  * Home module
+  */
+
+.home-welcome,
+.reward-container {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.reward-container,
+.reward-container h1,
+.reward-container h3,
+.home-welcome,
+.home-welcome h1,
+.home-welcome p,
+.home-welcome h3 {
+  color: white;
+}
+.home-welcome {
+  font-size: 125%;
+}
+
+.home-welcome h1,
+.home-welcome p,
+.home-welcome h3 {
+  line-height: 1em;
+}
+
+.home-welcome .pure-button {
+  background-color: transparent;
+  border-radius: 3px;
+  border: 2px solid white;
+  color: white !important;
+  padding: 20px;
+  font-size: 125%;
+  margin-right: 20px;
+  text-decoration: none;
+}
+
+.home-actions {
+  margin-top: 55px;
+}
+
+.home-actions button,
+.home-actions a {
+  background: transparent;
+  border: solid 2px white;
+  color: white;
+  padding: 10px 20px;
+  font-family: "Khand", sans-serif !important;
+  font-size: 20px;
+  margin: 10px;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  text-decoration: none !important;
+}
+
+.home-actions button:hover,
+.home-actions a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+/**
+  * Map module
+  */
+.map-container {
+  height: 100%;
+}
+
+.map-marker {
+  font-family: "Khand", sans-serif !important;
+  text-align: center;
+  font-size: 14px;
+  width: 230px;
+  color: white;
+}
+
+.map-marker h1,
+.map-marker h3 {
+  color: white;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+#iw-container {
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.gm-style-iw-d {
+  overflow: initial !important;
+}
+
+.gm-style-iw {
+  top: 16px !important;
+  left: 27px !important;
+  box-shadow: 0 1px 6px #730d0d;
+  border: 1px solid #730d0d;
+  border-radius: 5px;
+}
+
+.gm-style .gm-style-iw-t::after {
+  top: 14px !important;
+  box-shadow: -1px 1px 1px 0 #730d0d !important;
+  background: linear-gradient(45deg, #730d0d 0%, #000 50%, rgba(255, 255, 255, 0) 51%, rgba(255, 255, 255, 0) 100%);
+}
+
+.gm-style-iw.gm-style-iw-c .gm-ui-hover-effect {
+  display: none !important;
+}
+
+/**
+ /* Confirmation Module
+ /**/
+.confirmation-container {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.confirmation-container h1 {
+  line-height: 1em;
+}
+
+.confirmation-field {
+  margin-bottom: 24px;
+}
+
+.confirmation-field > label {
+  margin-bottom: 12px;
+  display: block;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.confirmation-container h1,
+.confirmation-field > label {
+  background: -webkit-linear-gradient(45deg, #000, #730d0d 20%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.confirmation-field.validation > input[type="text"] {
+  border-color: #dd4b39;
+}
+
+.confirmation-error {
+  overflow: hidden;
+  transition: all 0.2s linear;
+  color: #dd4b39;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.confirmation-field:not(.validation) > .confirmation-error {
+  max-height: 0 !important;
+  margin-top: 0 !important;
+}
+
+.confirmation-radio-container {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin: 6px 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transition: all 0.2s linear;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.confirmation-field.validation .confirmation-radio-container {
+  color: #dd4b39;
+}
+
+/* Hide the browser's default radio button */
+.confirmation-radio-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.confirmation-radio-container .checkmark {
+  position: absolute;
+  top: 2.5px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.confirmation-radio-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.confirmation-radio-container .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.confirmation-radio-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.confirmation-radio-container .checkmark:after {
+  top: 6px;
+  left: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+/* LinkButton */
+.lb-root {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+.lb-blue {
+  color: #1599bc !important;
+}
+.lb-underline {
+  text-decoration: underline;
+}
+.lb-disabled {
+  color: rgba(0, 0, 0, 0.36) !important;
+  cursor: initial !important;
+}

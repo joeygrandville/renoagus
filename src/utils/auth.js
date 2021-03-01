@@ -10,7 +10,9 @@ export const AuthContext = (props) => {
     app.auth().onAuthStateChanged((u) => setUser(u));
   }, []);
 
-  return <Auth.Provider value={{ user, app }} {...props} />;
+  const signOut = () => app.auth().signOut();
+
+  return <Auth.Provider value={{ user, app, signOut }} {...props} />;
 };
 
 export const useAuth = () => useContext(Auth);

@@ -1,4 +1,5 @@
 import React from "react";
+import { BgLoading } from "../../components/Loading";
 
 const Rsvp = ({ fullpageApi }) => (
   <div className="section confirmation-container">
@@ -39,7 +40,7 @@ const Rsvp = ({ fullpageApi }) => (
         <div className="confirmation-error">Escribí tu Nombre y Apellido</div>
       </div>
       <div className="confirmation-field">
-        <button type="button" className="confirmation-button">
+        <button type="button" className="bg-button">
           <div>Enviar Confirmación</div>
         </button>
         <div className="confirmation-error">
@@ -53,17 +54,11 @@ const Rsvp = ({ fullpageApi }) => (
       <h1>RSVP</h1>
       <h2>¡Te esperamos!</h2>
       <h3>Tu confirmación fue enviada</h3>
-      <button className="confirmation-button" onClick={() => fullpageApi.moveTo("reward")}>
+      <button className="bg-button" onClick={() => fullpageApi.moveTo("reward")}>
         <div>Nuestro Regalo</div>
       </button>
     </div>
-    <div className="confirmation-loading">
-      <div>
-        <div>
-          <i className="fas fa-sync-alt fa-spin"></i>
-        </div>
-      </div>
-    </div>
+    <BgLoading />
   </div>
 );
 

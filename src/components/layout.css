@@ -8,12 +8,4 @@
 .admin-header-title {
   flex-grow: 1;
   font-weight: 500;
-  color: inherit !important;
-}
-
-.admin-container {
-  flex-grow: 1;
-  overflow: hidden;
-  overflow-y: auto;
-  padding: 1em;
 }
