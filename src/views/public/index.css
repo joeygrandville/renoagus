@@ -83,6 +83,18 @@ main [class*="pure-u-"]:last-child article {
   margin: 0 auto;
 }
 
+@media (min-width: 305px) and (max-width: 379px) {
+  .countdown-container {
+    zoom: 0.8;
+  }
+}
+
+@media (max-width: 304px) {
+  .countdown-container {
+    zoom: 0.6;
+  }
+}
+
 .main-countdown .time {
   border-radius: 5px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
@@ -319,11 +331,23 @@ footer a:visited:hover {
   cursor: pointer;
   transition: all 0.2s linear;
   text-decoration: none !important;
+  white-space: nowrap;
 }
 
 .home-actions button:hover,
 .home-actions a:hover {
   background-color: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 465px) {
+  .home-actions a {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .home-actions {
+    margin-top: 25px;
+  }
 }
 /**
   * Map module
@@ -350,6 +374,21 @@ footer a:visited:hover {
 #iw-container {
   border-radius: 5px;
   padding: 15px;
+  max-width: calc(100% - 10px);
+}
+
+@media (max-width: 374px) {
+  #iw-container {
+    padding: 5px !important;
+  }
+  .map-marker h1,
+  .map-marker h3 {
+    white-space: initial !important;
+  }
+}
+
+.gm-style .gm-style-iw-c {
+  padding: 0 !important;
 }
 
 .gm-style-iw-d {
