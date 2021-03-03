@@ -12628,7 +12628,7 @@
   "resolved" "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"
   "version" "0.1.0"
 
-"yup@^0.32.9":
+"yup@^0.32.6":
   "integrity" "sha512-Ci1qN+i2H0XpY7syDQ0k5zKQ/DoxO0LzPg8PAR/X4Mpj6DqaeCoIYEEjDJwhArh3Fa7GWbQQVDZKeXYlSH4JMg=="
   "resolved" "https://registry.npmjs.org/yup/-/yup-0.32.9.tgz"
   "version" "0.32.9"
