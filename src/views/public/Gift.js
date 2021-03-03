@@ -1,13 +1,10 @@
 import React from "react";
-import Covid from "./Covid";
 const env = (path) => process.env[`REACT_APP_${path}`];
 
 const rows = [
   ["Tipo y número de cuenta", env("ACCT_TYPE_NO")],
   ["CBU", env("CBU")],
   ["Alias", env("CBU_ALIAS")],
-  ["Titular de la cuenta", env("ACCT_OWNER")],
-  ["Tipo y número de documento", env("ACCT_OWNER_ID")],
 ];
 
 const Gift = () => (
@@ -25,7 +22,6 @@ const Gift = () => (
           <b>{value}</b>
         </p>
       ))}
-      <Covid style={{ color: "#FFF" }} />
     </div>
   </div>
 );
