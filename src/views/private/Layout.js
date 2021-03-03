@@ -1,10 +1,25 @@
 import { AppBar, createMuiTheme, CssBaseline, IconButton, ThemeProvider, Toolbar, Typography, withStyles } from "@material-ui/core";
 import { PowerSettingsNew } from "@material-ui/icons";
 import React from "react";
-import usePrivate from "../views/private/common";
+import { usePrivate } from "./common";
 import "./layout.css";
 
 const theme = createMuiTheme({
+  typography: {
+    fontFamily: [
+      '"Khand"',
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
+  },
   palette: {
     type: "dark",
     background: { paper: "#424242", default: "#212121" },
@@ -14,7 +29,10 @@ const theme = createMuiTheme({
       colorPrimary: { color: "#FFF", backgroundColor: "#333 !important" },
     },
     MuiTypography: {
-      root: { fontFamily: '"Khand", sans-serif', color: "#FFF" },
+      root: { color: "#FFF" },
+    },
+    MuiTableCell: {
+      root: { fontSize: "1rem" },
     },
   },
 });
