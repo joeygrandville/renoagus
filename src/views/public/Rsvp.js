@@ -1,4 +1,5 @@
 import React from "react";
+import Covid from "./Covid";
 
 const Rsvp = ({ fullpageApi }) => (
   <div className="section confirmation-container">
@@ -8,6 +9,7 @@ const Rsvp = ({ fullpageApi }) => (
       <button className="bg-button" onClick={() => fullpageApi.moveTo("reward")}>
         <div>Nuestro Regalo</div>
       </button>
+      <Covid />
     </div>
   </div>
 );

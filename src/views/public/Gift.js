@@ -1,4 +1,5 @@
 import React from "react";
+import Covid from "./Covid";
 const env = (path) => process.env[`REACT_APP_${path}`];
 
 const rows = [
@@ -24,6 +25,7 @@ const Gift = () => (
           <b>{value}</b>
         </p>
       ))}
+      <Covid style={{ color: "#FFF" }} />
     </div>
   </div>
 );
