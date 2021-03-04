@@ -26,18 +26,20 @@ const Field = ({ edit, error, name, state, onChange, onClearError, options, ...o
   }
 };
 
-const Invitado = ({ disabled, names, onCancel, onDelete, onEdit, onValidate, invitado, ...other }) => {
-  const [state, setState] = useState({});
+const Invitado = ({ disabled, names, onCancel, onConfirm, onEdit, onValidate, invitado, ...other }) => {
+  const [state, setState] = useState(invitado || {});
   const [valid, setValid] = useState(false);
   const onChange = ({ target: { name: n, value } }) => setState((s) => ({ ...s, [n]: value, ready: true }));
   useEffect(() => {
     if (state.ready) setValid(onValidate(state).valid);
   }, [state, onValidate]);
-  const { edit, options } = other;
+  const { edit, error } = other;
   useEffect(() => {
     setValid(edit);
-    setState(invitado || { estado: options.find((e) => e.text === "Pendiente")?.id, invitados: 1 });
-  }, [edit, invitado, options]);
+  }, [edit]);
+  useEffect(() => {
+    setValid(!Object.keys(error).length);
+  }, [error]);
   return (
     <TableRow style={{ opacity: !edit && disabled ? 0.5 : 1 }}>
       {names.map(([name, isInput]) => (
@@ -46,13 +48,13 @@ const Invitado = ({ disabled, names, onCancel, onDelete, onEdit, onValidate, inv
       <TableCell align="right" style={{ whiteSpace: "nowrap" }}>
         {(edit && (
           <>
-            <IconButton type="submit" icon={<Save />} disabled={!valid} />
-            <IconButton onClick={onCancel} icon={<Clear />} />
+            <IconButton tooltip="Guardar" type="submit" icon={<Save />} disabled={!valid} />
+            <IconButton tooltip="Cancelar" onClick={onCancel} icon={<Clear />} />
           </>
         )) || (
           <>
-            <IconButton onClick={onEdit(invitado)} icon={<Edit />} />
-            <IconButton onClick={onDelete(invitado)} icon={<Delete />} {...{ disabled }} />
+            <IconButton tooltip="Editar" onClick={onEdit(invitado)} icon={<Edit />} />
+            <IconButton tooltip="Eliminar" onClick={() => onConfirm(invitado)} icon={<Delete />} {...{ disabled }} />
           </>
         )}
       </TableCell>

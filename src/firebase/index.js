@@ -42,20 +42,23 @@ export const db = {
           return [...a, { id, text: estado }];
         }, []);
       }
-      return Object.keys(val).reduce((a, k) => [...a, { id: k, text: val[k].estado }], []);
+      return Object.keys(val).reduce((a, k) => [...a, { id: k, ...val[k] }], []);
     });
   },
   postInvitado: ({ id, nombre, email, estado, invitados }) =>
     new Promise((res, rej) => {
       try {
-        const r = ref().child("invitados");
         if (!id) {
-          const id = r.push({ nombre, email, estado, invitados }).key;
-          res({ id, nombre, email, estado, invitados });
+          const id = ref().child("invitados").push({ nombre, email, estado, invitados }).key;
+          return res({ id, nombre, email, estado, invitados });
         }
-        rej("update no implementado");
+        const r = ref(`invitados/${id}`);
+        r.get().then((s) => {
+          if (!s.val()) return rej("Invitado no encontrado");
+          r.set({ nombre, email, estado, invitados }).then(() => res({ id, nombre, email, estado, invitados }));
+        });
       } catch (err) {
-        rej(err);
+        return rej(err);
       }
     }),
   deleteInvitado: (id) => ref(`invitados/${id}`).remove(),

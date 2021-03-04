@@ -1,4 +1,4 @@
-import { AppBar, createMuiTheme, CssBaseline, IconButton, ThemeProvider, Toolbar, Typography, withStyles } from "@material-ui/core";
+import { AppBar, createMuiTheme, CssBaseline, IconButton, ThemeProvider, Toolbar, Tooltip, Typography, withStyles } from "@material-ui/core";
 import { PowerSettingsNew } from "@material-ui/icons";
 import React from "react";
 import { usePrivate } from "./common";
@@ -33,6 +33,7 @@ const theme = createMuiTheme({
     },
     MuiTableCell: {
       root: { fontSize: "1rem" },
+      footer: { fontSize: "1rem", borderTop: "solid 2px rgb(81, 81, 81)" },
     },
   },
 });
@@ -62,9 +63,11 @@ const Layout = ({ children, ...props }) => {
             <Typography variant="h6" className="admin-header-title">
               Admin
             </Typography>
-            <IconButton color="inherit" onClick={signOut}>
-              <PowerSettingsNew />
-            </IconButton>
+            <Tooltip title="Cerrar Sesión">
+              <IconButton color="inherit" onClick={signOut}>
+                <PowerSettingsNew />
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
         <Container>{children}</Container>

@@ -13,7 +13,8 @@ export const FbContextProvider = (props) => {
   useEffect(() => {
     if (!loaded) return;
     let mounted = true;
-    if (mounted) getEstados().then((estados) => setStore((s) => ({ ...s, estados })));
+    if (mounted)
+      getEstados().then((estados) => setStore((s) => ({ ...s, estados, options: estados.map(({ id, estado }) => ({ id, text: estado })) })));
     return () => (mounted = false);
   }, [getEstados, loaded, setStore]);
   return <Firebase.Provider value={value} {...props} />;

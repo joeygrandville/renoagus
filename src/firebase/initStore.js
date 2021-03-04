@@ -1,5 +1,6 @@
 const initStore = {
   estados: [],
+  options: [],
   invitados: [],
 };
 

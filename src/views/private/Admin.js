@@ -4,6 +4,9 @@ import React from "react";
 import Form from "../../components/Form";
 import IconButton from "../../components/IconButton";
 import { useAdmin } from "./common";
+import useConfirmDelete from "./ConfirmDelete";
+import DownloadButton from "./DownloadJson";
+import Footer from "./Footer";
 import Invitado from "./Invitado";
 
 const HeadCell = ({ icon, text, ...props }) => (
@@ -18,7 +21,7 @@ const HeadCell = ({ icon, text, ...props }) => (
 );
 
 const Admin = () => {
-  const { invitado, loaded, invitados, onAdd, onSubmit, ...other } = useAdmin();
+  const { invitado, loaded, invitados, onAdd, onDelete, onSubmit, ...other } = useAdmin();
   const { options } = other;
   const data = invitados.map((i) => {
     const link = i.id ? `${window.location.origin}?rsvp=${i.id}#confirmation` : undefined;
@@ -32,38 +35,58 @@ const Admin = () => {
       txEstado: i.estado ? options.find(({ id }) => id === i.estado)?.text : undefined,
     };
   });
+  const { modal, onConfirm } = useConfirmDelete({ onSubmit: onDelete });
   return (
-    <Form {...{ onSubmit }}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <HeadCell icon={<Person />} text="Invitado" style={{ minWidth: 245 }} />
-            <HeadCell icon={<AlternateEmail />} text="Email" style={{ minWidth: 245 }} />
-            <HeadCell icon={<Fingerprint />} text="Código" />
-            <HeadCell icon={<Link />} text="Link" />
-            <HeadCell icon={<QueryBuilder />} text="Estado" style={{ width: 130 }} />
-            <HeadCell icon={<PlusOne />} text="Invitados" style={{ width: 150 }} />
-            <TableCell align="right" style={{ width: 92 }}>
-              {(data.length && <IconButton onClick={onAdd} disabled={Boolean(invitado)} icon={<Add />} />) || " "}
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {invitado && !invitado.id && <Invitado edit {...other} />}
-          {(!data.length && !invitado && (
+    <>
+      <Form {...{ onSubmit }}>
+        <Table>
+          <TableHead>
             <TableRow>
-              <TableCell align="center" colSpan={6}>
-                No hay datos
-              </TableCell>
+              <HeadCell icon={<Person />} text="Invitado" style={{ minWidth: 245 }} />
+              <HeadCell icon={<AlternateEmail />} text="Email" style={{ minWidth: 245 }} />
+              <HeadCell icon={<Fingerprint />} text="Código" />
+              <HeadCell icon={<Link />} text="Link" />
+              <HeadCell icon={<QueryBuilder />} text="Estado" style={{ width: 130 }} />
+              <HeadCell icon={<PlusOne />} text="Invitados" style={{ width: 150 }} />
               <TableCell align="right" style={{ width: 92 }}>
-                <IconButton onClick={onAdd} disabled={Boolean(invitado)} icon={<Add />} />
+                {(data.length && (
+                  <>
+                    <DownloadButton />
+                    <IconButton tooltip="Nuevo Invitado" onClick={onAdd} disabled={Boolean(invitado)} icon={<Add />} />
+                  </>
+                )) ||
+                  " "}
               </TableCell>
             </TableRow>
-          )) ||
-            data.map((inv) => <Invitado key={inv.id} disabled={Boolean(invitado)} edit={(invitado || {}).id === inv.id} invitado={inv} {...other} />)}
-        </TableBody>
-      </Table>
-    </Form>
+          </TableHead>
+          <TableBody>
+            {invitado && !invitado.id && <Invitado edit {...{ invitado }} {...other} />}
+            {(!data.length && !invitado && (
+              <TableRow>
+                <TableCell align="center" colSpan={6}>
+                  No hay datos
+                </TableCell>
+                <TableCell align="right" style={{ width: 92 }}>
+                  <IconButton tooltip="Nuevo Invitado" onClick={onAdd} disabled={Boolean(invitado)} icon={<Add />} />
+                </TableCell>
+              </TableRow>
+            )) ||
+              data.map((inv) => (
+                <Invitado
+                  key={inv.id}
+                  disabled={Boolean(invitado)}
+                  {...{ onConfirm }}
+                  edit={(invitado || {}).id === inv.id}
+                  invitado={inv}
+                  {...other}
+                />
+              ))}
+          </TableBody>
+          {data.length > 0 && <Footer {...{ data, options }} />}
+        </Table>
+      </Form>
+      {modal}
+    </>
   );
 };
 

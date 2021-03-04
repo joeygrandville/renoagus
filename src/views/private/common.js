@@ -30,7 +30,7 @@ export const useAdmin = () => {
   const {
     db: { getInvitados, postInvitado, deleteInvitado },
     loaded,
-    store: { estados: options, invitados },
+    store: { options, invitados },
     setStore,
   } = useFbContext();
   const onValidate = useCallback((data) => {
@@ -48,10 +48,10 @@ export const useAdmin = () => {
     }
   }, []);
   const onClearError = useCallback(() => setError({}), []);
-  const onAdd = useCallback(() => setInvitado({}), []);
+  const onAdd = useCallback(() => setInvitado({ estado: options.find((e) => e.text === "Pendiente")?.id || "", invitados: 1 }), [options]);
   const onEdit = useCallback((i) => handleEvent(() => setInvitado(i)), []);
   const onDelete = useCallback(
-    ({ id }) => handleEvent(() => deleteInvitado(id).then(() => setStore((s) => ({ ...s, invitados: s.invitados.filter((i) => i.id !== id) })))),
+    ({ id }) => deleteInvitado(id).then(() => setStore((s) => ({ ...s, invitados: s.invitados.filter((i) => i.id !== id) }))),
     [deleteInvitado, setStore]
   );
   const onCancel = useCallback(() => setInvitado(undefined), []);
@@ -66,11 +66,13 @@ export const useAdmin = () => {
         setStore((s) => ({
           ...s,
           invitados: [
-            { ...i, new: true },
-            ...s.invitados.reduce((a, x) => [...a, { ...x, new: undefined }], []).sort((a, b) => a.nombre.localeCompare(b.nombre)),
+            ...(!s.invitados.some(({ id }) => id === i.id) ? [{ ...i, new: true }] : []),
+            ...s.invitados
+              .reduce((a, x) => [...a, x.id === i.id ? { ...i, new: undefined, modified: true } : { ...x, new: undefined, modified: undefined }], [])
+              .sort((a, b) => a.nombre.localeCompare(b.nombre)),
           ],
         }));
-        return onCancel();
+        return setInvitado(undefined);
       })
       .catch(console.log);
   };
