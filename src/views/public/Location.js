@@ -9,21 +9,18 @@ const Location = () => {
   const [, setMap] = useState(null);
   const options = {
     mapContainerClassName: "map-container",
-    zoom: 15,
-    center: { lat: -24.7041197, lng: -65.4716714 },
-    onLoad: useCallback((map) => {
-      const bounds = new window.google.maps.LatLngBounds();
-      map.fitBounds(bounds);
-      setMap(map);
-    }, []),
+    center: { lat: -24.730524332692443, lng: -65.45045847945346 },
+    zoom: 13,
+    onLoad: setMap,
     onUnmount: useCallback(() => setMap(null), []),
+    onClick: ({ latLng }) => console.log(`lat: ${latLng.lat()}, lng: ${latLng.lng()}`),
   };
   return (
     <div className="section">
       <div className="map-container">
         {isLoaded && (
           <GoogleMap {...options}>
-            <InfoWindow position={options.center}>
+            <InfoWindow position={{ lat: -24.704093505168764, lng: -65.47165865950718 }}>
               <div id="iw-container" className="map-marker">
                 <h1>Agustín y Renata</h1>
                 <h3>23 de Mayo</h3>

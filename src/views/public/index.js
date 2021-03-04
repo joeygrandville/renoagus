@@ -15,12 +15,12 @@ const Public = () => {
       anchors={["home", "location", "confirmation", "reward"]}
       render={(props) => {
         return (
-          <>
+          <ReactFullpage.Wrapper>
             <Home {...props} />
             <Location {...props} />
             <Rsvp {...props} />
             <Gift {...props} />
-          </>
+          </ReactFullpage.Wrapper>
         );
       }}
     />

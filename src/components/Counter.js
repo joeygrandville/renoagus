@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Countdown from "react-countdown";
+import "./counter.css";
 
 const parse = (val) => {
   if (!val && val !== 0) return undefined;
@@ -37,7 +38,11 @@ const Counter = (props) => {
     ];
     return items.map(({ label, value }) => <Item {...{ key: label, label, value }} />);
   };
-  return <Countdown {...{ renderer, ...props }} />;
+  return (
+    <div className="countdown-container">
+      <Countdown {...{ renderer, ...props }} />
+    </div>
+  );
 };
 
 export default Counter;

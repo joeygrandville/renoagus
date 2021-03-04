@@ -6,3 +6,5 @@ export const handleEvent = (fn) => (event) => {
   if (typeof fn !== "function") return false;
   return fn(event);
 };
+
+export const array = (length) => Array.from(Array(length), (_, i) => i + 1);
