@@ -1,75 +1,32 @@
-import { AppBar, createMuiTheme, CssBaseline, IconButton, ThemeProvider, Toolbar, Tooltip, Typography, withStyles } from "@material-ui/core";
+import { AppBar, CssBaseline, IconButton, ThemeProvider, Toolbar, Tooltip, Typography } from "@material-ui/core";
 import { PowerSettingsNew } from "@material-ui/icons";
 import React from "react";
+import { privateTheme, withPrivateContainerStyles } from "../../components/common.styles";
 import { usePrivate } from "./common";
 import "./layout.css";
 
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: [
-      '"Khand"',
-      "-apple-system",
-      "BlinkMacSystemFont",
-      '"Segoe UI"',
-      "Roboto",
-      '"Helvetica Neue"',
-      "Arial",
-      "sans-serif",
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(","),
-  },
-  palette: {
-    type: "dark",
-    background: { paper: "#424242", default: "#212121" },
-  },
-  overrides: {
-    MuiAppBar: {
-      colorPrimary: { color: "#FFF", backgroundColor: "#333 !important" },
-    },
-    MuiTypography: {
-      root: { color: "#FFF" },
-    },
-    MuiTableCell: {
-      root: { fontSize: "1rem" },
-      footer: { fontSize: "1rem", borderTop: "solid 2px rgb(81, 81, 81)" },
-    },
-  },
-});
-
-const Container = withStyles(
-  (theme) => ({
-    container: {
-      flexGrow: 1,
-      overflow: "hidden",
-      overflowY: "auto",
-      padding: theme.spacing(2),
-      background: theme.palette.background.default,
-      color: "#fff",
-    },
-  }),
-  { name: "layout" }
-)(({ classes, ...props }) => <div className={classes.container} {...props} />);
+const Container = withPrivateContainerStyles(({ classes, ...props }) => <div className={classes.root} {...props} />);
 
 const Layout = ({ children, ...props }) => {
-  const { signOut } = usePrivate();
+  const { signOut, user } = usePrivate();
   return (
     <>
-      <CssBaseline />
-      <ThemeProvider {...{ theme }} {...props}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" className="admin-header-title">
-              Admin
-            </Typography>
-            <Tooltip title="Cerrar Sesión">
-              <IconButton color="inherit" onClick={signOut}>
-                <PowerSettingsNew />
-              </IconButton>
-            </Tooltip>
-          </Toolbar>
-        </AppBar>
+      <ThemeProvider theme={privateTheme} {...props}>
+        <CssBaseline />
+        {user && (
+          <AppBar position="static">
+            <Toolbar>
+              <Typography variant="h6" className="admin-header-title">
+                Admin
+              </Typography>
+              <Tooltip title="Cerrar Sesión">
+                <IconButton color="inherit" onClick={signOut}>
+                  <PowerSettingsNew />
+                </IconButton>
+              </Tooltip>
+            </Toolbar>
+          </AppBar>
+        )}
         <Container>{children}</Container>
       </ThemeProvider>
     </>

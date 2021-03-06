@@ -31,6 +31,12 @@ export const db = {
         .reduce((a, k) => [...a, { id: k, ...val[k] }], [])
         .sort((a, b) => a.nombre.localeCompare(b.nombre));
     }),
+  getInvitado: (id) =>
+    once(`invitados/${id}`).then((s) => {
+      const val = s.val();
+      if (!val) throw new Error("Código no válido");
+      return { id, ...val };
+    }),
   getEstados: () => {
     let r = ref("estados").orderByChild("orden");
     return once(null, r).then((s) => {
@@ -73,12 +79,9 @@ export const useFirebase = () => {
   const { loaded } = state;
   const signIn = useCallback(
     (username, password) =>
-      new Promise((_res, rej) => {
-        if (!loaded) {
-          rej({ mesage: "App was not initialized. Please try again" });
-          return;
-        }
-        return app.auth().signInWithEmailAndPassword(username, password);
+      new Promise((res, rej) => {
+        if (!loaded) return rej({ mesage: "App was not initialized. Please try again" });
+        return app.auth().signInWithEmailAndPassword(username, password).then(res).catch(rej);
       }),
     [loaded]
   );

@@ -1,18 +1,22 @@
 import ReactFullpage from "@fullpage/react-fullpage";
-import React, { useEffect } from "react";
+import { CssBaseline, ThemeProvider } from "@material-ui/core";
+import React from "react";
+import { publicTheme } from "../../components/common.styles";
+import PublicContextProvider, { usePublicContext } from "./context";
 import Gift from "./Gift";
 import Home from "./Home";
 import Location from "./Location";
-import Rsvp from "./Rsvp";
+import Rsvp from "./rsvp";
 
-const Public = () => {
-  useEffect(() => {
-    require("./index.css");
-  }, []);
+const PublicWrapper = () => {
+  const {
+    actions: { onLeave },
+    anchors,
+  } = usePublicContext();
   return (
     <ReactFullpage
       navigation
-      anchors={["home", "location", "confirmation", "reward"]}
+      {...{ anchors, onLeave }}
       render={(props) => {
         return (
           <ReactFullpage.Wrapper>
@@ -26,4 +30,14 @@ const Public = () => {
     />
   );
 };
+
+const Public = () => (
+  <PublicContextProvider>
+    <ThemeProvider theme={publicTheme}>
+      <CssBaseline />
+      <PublicWrapper />
+    </ThemeProvider>
+  </PublicContextProvider>
+);
+
 export default Public;

@@ -12,7 +12,6 @@ export const IntegerInput = memo(
     },
   })(({ name, onChange, ...other }) => {
     const props = {
-      ...other,
       name,
       onKeyPress: (e) => ![...Array(10).keys()].some((x) => String(x) === e.key) && e.preventDefault(),
       onValueChange: ({ floatValue }) => {
@@ -21,6 +20,7 @@ export const IntegerInput = memo(
       },
       customInput: Input,
       decimalScale: 0,
+      ...other,
     };
     return <NumberFormat fullWidth {...props} />;
   }, memProps(["value", "error", "placeholder"]))

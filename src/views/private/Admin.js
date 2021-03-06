@@ -49,13 +49,12 @@ const Admin = () => {
               <HeadCell icon={<QueryBuilder />} text="Estado" style={{ width: 130 }} />
               <HeadCell icon={<PlusOne />} text="Invitados" style={{ width: 150 }} />
               <TableCell align="right" style={{ width: 92 }}>
-                {(data.length && (
+                {data.length && (
                   <>
                     <DownloadButton />
                     <IconButton tooltip="Nuevo Invitado" onClick={onAdd} disabled={Boolean(invitado)} icon={<Add />} />
                   </>
-                )) ||
-                  " "}
+                )}
               </TableCell>
             </TableRow>
           </TableHead>

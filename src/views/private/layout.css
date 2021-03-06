@@ -7,10 +7,4 @@
 
 .admin-header-title {
   flex-grow: 1;
-  font-family: inherit !important;
-  font-weight: 500;
-}
-
-a {
-  color: #fff;
 }
