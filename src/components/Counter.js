@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Countdown from "react-countdown";
+import { usePublicContext } from "../views/public/context";
 import "./counter.css";
 
 const parse = (val) => {
@@ -8,7 +9,7 @@ const parse = (val) => {
   return val;
 };
 
-const Item = ({ value, label }) => {
+const Item = ({ value, label, labels }) => {
   const [{ curr, next, flip }, setState] = useState({ curr: 0, next: 0 });
   useEffect(() => {
     setState((s) => ({ curr: s.next, next: value, flip: false }));
@@ -22,12 +23,15 @@ const Item = ({ value, label }) => {
       <span className="count next top">{n}</span>
       <span className="count next bottom">{n}</span>
       <span className="count curr bottom">{c}</span>
-      <span className="label">{label.length < 6 ? label : label.substr(0, 3)}</span>
+      {labels && <span className="label">{label.length < 6 ? label : `${label.substr(0, 3)}s`}</span>}
     </div>
   );
 };
 
-const Counter = (props) => {
+const Counter = ({ labels, props }) => {
+  const {
+    state: { date },
+  } = usePublicContext();
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) return <span>You are good to go!</span>;
     const items = [
@@ -36,11 +40,11 @@ const Counter = (props) => {
       { label: "minutos", value: minutes },
       { label: "segundos", value: seconds },
     ];
-    return items.map(({ label, value }) => <Item {...{ key: label, label, value }} />);
+    return items.map(({ label, value }) => <Item {...{ key: label, label, value, labels }} />);
   };
   return (
     <div className="countdown-container">
-      <Countdown {...{ renderer, ...props }} />
+      <Countdown {...{ renderer, date, ...props }} />
     </div>
   );
 };

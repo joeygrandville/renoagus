@@ -15,11 +15,11 @@ export const fontFamily = [
   '"Segoe UI Symbol"',
 ].join(",");
 
-const white = { color: "#FFF" };
+export const white = { color: "#FFF" };
 const hs = array(6).reduce((a, i) => ({ ...a, [`& h${i}`]: white }), {});
 const common = { height: "100%", display: "flex", alignItems: "center" };
 
-const bgText = {
+export const bgText = {
   background: "-webkit-linear-gradient(45deg, #000, #730d0d 5%)",
   "-webkit-background-clip": "text",
   backgroundClip: "text",

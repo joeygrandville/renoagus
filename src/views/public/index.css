@@ -5,7 +5,6 @@ h4,
 h5,
 h6 {
   font-weight: 600;
-  color: #000;
 }
 
 body {
@@ -116,12 +115,12 @@ code {
 
 .map-marker h1,
 .map-marker h3 {
-  font-weight: bold;
+  font-weight: 600;
   white-space: nowrap;
+  margin-top: 0;
 }
 
 .map-marker h1 {
-  margin-top: 0;
 }
 
 @media (max-width: 374px) {
@@ -260,4 +259,8 @@ code {
 .lb-disabled {
   color: rgba(0, 0, 0, 0.36) !important;
   cursor: initial !important;
+}
+
+.pt-80 {
+  padding-top: 80px;
 }

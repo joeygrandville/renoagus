@@ -6,14 +6,17 @@ const PublicContext = createContext();
 
 export const usePublicContext = () => useContext(PublicContext);
 
+const anchors = ["home", "location", "confirmation", "reward"];
+
+const date = new Date("2021-05-23T15:00:00Z");
+
 const PublicContextProvider = (props) => {
   const {
     store: { estados: es },
     db: { getInvitado, postInvitado },
   } = useFbContext();
   const estados = es.filter((e) => e.estado !== "Pendiente").map(({ id, descripcion, ...e }) => ({ id, text: descripcion, ...e }));
-  const anchors = ["home", "location", "confirmation", "reward"];
-  const [state, setState] = useState({ home: true, step: 0, loading: false, ...anchors.reduce((ac, a, i) => ({ ...ac, [a]: i === 0 }), {}) });
+  const [state, setState] = useState({ home: true, step: 0, loading: false, date, ...anchors.reduce((ac, a, i) => ({ ...ac, [a]: i === 0 }), {}) });
   const { rsvp } = useQueryString();
   const showLoading = useCallback(() => setState((s) => ({ ...s, loading: true })), []);
   const hideLoading = useCallback(() => setState((s) => ({ ...s, loading: false })), []);
@@ -51,7 +54,7 @@ const PublicContextProvider = (props) => {
         setState((s) => {
           return { ...s, ...anchors.reduce((ac, a) => ({ ...ac, [a]: origin.anchor !== a && destination.anchor === a }), {}) };
         }),
-      [anchors]
+      []
     ),
     onValidate,
     onConfirm,

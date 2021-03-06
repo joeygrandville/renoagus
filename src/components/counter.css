@@ -1,19 +1,23 @@
 .countdown-container {
-  height: 130px;
   display: flex;
   justify-content: space-around;
   max-width: 500px;
+  font-size: 17.5px;
+}
+
+.section .countdown-container {
   margin: 0 auto;
+  height: 130px;
 }
 
 @media (min-width: 305px) and (max-width: 379px) {
-  .countdown-container {
+  .section .countdown-container {
     zoom: 0.8;
   }
 }
 
 @media (max-width: 304px) {
-  .countdown-container {
+  .section .countdown-container {
     zoom: 0.6;
   }
 }
@@ -54,7 +58,7 @@
   display: block;
   font-family: "Oswald", sans-serif;
   font-size: 2em;
-  line-height: 2.6em;
+  line-height: 2.6em !important;
   overflow: hidden;
   position: absolute;
   text-align: center;
@@ -94,7 +98,7 @@
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
   border-radius: 0 0 5px 5px;
-  line-height: 0;
+  line-height: 0 !important;
   height: 50%;
   top: 50%;
   -webkit-transform-origin: 50% 0;
