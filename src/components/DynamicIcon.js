@@ -1,42 +1,37 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
-// import shortid from "shortid";
+import { AlternateEmail, Fingerprint, Help, PermContactCalendar, Person, Phone, PlusOne, QueryBuilder, Restaurant } from "@material-ui/icons";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const importIcon = (icon) =>
-  lazy(() => {
-    switch (icon) {
-      case "Person":
-        return import("@material-ui/icons/Person");
-      case "AlternateEmail":
-        return import("@material-ui/icons/AlternateEmail");
-      case "Fingerprint":
-        return import("@material-ui/icons/Fingerprint");
-      case "Link":
-        return import("@material-ui/icons/Link");
-      case "QueryBuilder":
-        return import("@material-ui/icons/QueryBuilder");
-      case "PlusOne":
-        return import("@material-ui/icons/PlusOne");
-      case "PermContactCalendar":
-        return import("@material-ui/icons/PermContactCalendar");
-      case "Phone":
-        return import("@material-ui/icons/Phone");
-      case "Restaurant":
-        return import("@material-ui/icons/Restaurant");
-      default:
-        return import("@material-ui/icons/Help");
+const DynIcon = ({ icon, ...other }) => {
+  const Icon = (() => {
+    try {
+      switch (icon) {
+        case "Person":
+          return <Person {...other} />;
+        case "AlternateEmail":
+          return <AlternateEmail {...other} />;
+        case "Fingerprint":
+          return <Fingerprint {...other} />;
+        case "Link":
+          return <Link {...other} />;
+        case "QueryBuilder":
+          return <QueryBuilder {...other} />;
+        case "PlusOne":
+          return <PlusOne {...other} />;
+        case "PermContactCalendar":
+          return <PermContactCalendar {...other} />;
+        case "Phone":
+          return <Phone {...other} />;
+        case "Restaurant":
+          return <Restaurant {...other} />;
+        default:
+          return <Help {...other} />;
+      }
+    } catch (_ex) {
+      return <Help {...other} />;
     }
-  }).catch(() => import("@material-ui/icons/Help"));
-
-const DynIcon = ({ icon }) => {
-  const [view, setView] = useState(undefined);
-  useEffect(() => {
-    const loadIcon = async () => {
-      const Icon = await importIcon(icon);
-      return <Icon />;
-    };
-    loadIcon().then(setView);
-  }, [icon]);
-  return <Suspense fallback="">{view}</Suspense>;
+  })();
+  return Icon;
 };
 
 export default DynIcon;

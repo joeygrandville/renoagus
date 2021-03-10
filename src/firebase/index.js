@@ -105,7 +105,7 @@ export const db = {
         r.get().then((s) => {
           const val = s.val();
           if (!val) return rej("Invitado no encontrado");
-          r.set({ ...other, history: [...(Array.isArray(val.history) ? val.history : []), h] }).then(() => res({ id, ...other }));
+          return r.set({ ...other, history: [...(Array.isArray(val.history) ? val.history : []), h] }).then(() => res({ id, ...other }));
         });
       } catch (err) {
         return rej(err);
@@ -133,11 +133,11 @@ export const db = {
   importInvitados: ({ delExisting, invitados }, hist) =>
     new Promise((res, rej) => {
       const r = ref("invitados");
-      const h = { ...hist, date: new Date() };
+      const h = { ...hist, import: true, date: new Date() };
       const importNow = () => {
         try {
           const result = invitados.reduce((a, i) => {
-            const id = r.push({ ...i, history: { ...h, value: i } }).key;
+            const id = r.push({ ...i, history: [{ ...h, value: i }] }).key;
             return [...a, { id, ...i }];
           }, []);
           return res(result);
