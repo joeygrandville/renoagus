@@ -5,7 +5,7 @@ import { handleEvent } from "../../../components/common";
 import { withAdminTableStyles } from "../../../components/common.styles";
 import IconButton from "../../../components/IconButton";
 import { useAdminContext } from "./context";
-import DownloadButton from "./DownloadJson";
+import DownloadMenu from "./DownloadMenu";
 import Footer from "./Footer";
 import Invitado from "./Invitado";
 import UploadButton from "./UploadExcel";
@@ -44,7 +44,7 @@ const AdminTable = withAdminTableStyles(({ onConfirm, onUploadChange, classes })
             {data.length && (
               <Grid item className="nowrap">
                 <UploadButton onClick={onUpload} />
-                <DownloadButton />
+                <DownloadMenu />
                 <IconButton tooltip="Nuevo Invitado" onClick={onAdd} disabled={Boolean(invitado)} icon={<Add />} />
               </Grid>
             )}
