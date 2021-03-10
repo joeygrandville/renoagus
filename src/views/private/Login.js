@@ -2,19 +2,19 @@ import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import { withLoginStyles } from "../../components/common.styles";
 import Form from "../../components/Form";
-import { usePrivate } from "./common";
+import { useFbContext } from "../../firebase/context";
 import Layout from "./Layout";
 
 const Login = withLoginStyles(({ classes }) => {
-  const { loaded, signIn } = usePrivate(true);
+  const { loaded, signIn } = useFbContext();
   const [{ error, loading }, setState] = useState({ loading: false });
   const onSubmit = ({ username, password }) => {
     setState({ error: undefined, loading: true });
     return signIn(username.value, password.value).catch(({ message }) => setState({ loading: false, error: message }));
   };
   return (
-    (loaded && (
-      <Layout>
+    <Layout login>
+      {(loaded && (
         <div className={`${classes.root}`}>
           <div className={classes.container}>
             <Grid container alignItems="center" spacing={4}>
@@ -42,9 +42,9 @@ const Login = withLoginStyles(({ classes }) => {
             </Grid>
           </div>
         </div>
-      </Layout>
-    )) ||
-    "cargando..."
+      )) ||
+        "Cargando..."}
+    </Layout>
   );
 });
 

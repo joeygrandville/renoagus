@@ -5,9 +5,7 @@ import RsvpStep1 from "./Step1";
 import RsvpStep2 from "./Step2";
 import RsvpStep3 from "./Step3";
 
-// <BgButton onClick={() => fullpageApi.moveTo("reward")}>Nuestro Regalo</BgButton>
-
-const Rsvp = withRsvpStyles(({ classes, fullpageApi }) => {
+const Rsvp = withRsvpStyles(({ classes, ...other }) => {
   const {
     state: { step },
   } = usePublicContext();
@@ -15,9 +13,9 @@ const Rsvp = withRsvpStyles(({ classes, fullpageApi }) => {
     <div className={`section ${classes.root}`}>
       <div className={classes.container}>
         <h1 className="bg-text">RSVP</h1>
-        {step === 0 && <RsvpStep1 />}
-        {step === 1 && <RsvpStep2 />}
-        {step === 2 && <RsvpStep3 />}
+        {step === 0 && <RsvpStep1 {...other} />}
+        {step === 1 && <RsvpStep2 {...other} />}
+        {step === 2 && <RsvpStep3 {...other} />}
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ const Location = () => {
                   <Grid item>
                     <h1>23 de Mayo</h1>
                     <h3>Hostal Castellanos</h3>
-                    <h3>Salta, Argentina</h3>
+                    <h3 className="hide-xs">Salta, Argentina</h3>
                   </Grid>
                   {directions && (
                     <Grid item>

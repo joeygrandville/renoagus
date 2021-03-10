@@ -1,14 +1,21 @@
 import { AppBar, CssBaseline, IconButton, ThemeProvider, Toolbar, Tooltip, Typography } from "@material-ui/core";
 import { PowerSettingsNew } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { privateTheme, withPrivateContainerStyles } from "../../components/common.styles";
-import { usePrivate } from "./common";
+import { useFbContext } from "../../firebase/context";
 import "./layout.css";
 
 const Container = withPrivateContainerStyles(({ classes, ...props }) => <div className={classes.root} {...props} />);
 
-const Layout = ({ children, ...props }) => {
-  const { signOut, user } = usePrivate();
+const Layout = ({ children, login, ...props }) => {
+  const auth = useFbContext();
+  const history = useHistory();
+  const { user, signOut } = auth;
+  useEffect(() => {
+    if (login && user) history.replace("/admin");
+    if (!login && !user) history.replace("/login");
+  }, [user, history, login]);
   return (
     <>
       <ThemeProvider theme={privateTheme} {...props}>

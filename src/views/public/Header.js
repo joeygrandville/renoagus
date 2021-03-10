@@ -6,6 +6,11 @@ import { usePublicContext } from "./context";
 import Counter from "../../components/Counter";
 
 const Header = withStyles((t) => {
+  const transition = (args) =>
+    t.transitions.create(args, {
+      duration: t.transitions.duration.complex,
+      easing: t.transitions.easing.easeInOut,
+    });
   return {
     root: {
       position: "absolute",
@@ -14,21 +19,23 @@ const Header = withStyles((t) => {
       width: "100%",
       height: 0,
       overflow: "hidden",
-      transition: t.transitions.create("height", {
-        duration: t.transitions.duration.complex,
-        easing: t.transitions.easing.easeInOut,
-      }),
+      transition: transition("height"),
     },
     in: { height: 67 },
     container: {
       padding: t.spacing(2, 3),
       display: "flex",
+      alignItems: "center",
       height: 64,
-      transition: t.transitions.create(["background", "-webkit-box-shadow", "-moz-box-shadow", "boxShadow", "-webkit-filter", "filter"], {
-        duration: t.transitions.duration.complex,
-        easing: t.transitions.easing.easeInOut,
-      }),
-      "& .countdown-container": { width: 300, zoom: 0.4, position: "relative", top: -10 },
+      transition: transition(["background", "-webkit-box-shadow", "-moz-box-shadow", "boxShadow", "-webkit-filter", "filter"]),
+      "& .countdown-container": {
+        width: 300,
+        zoom: 0.4,
+        position: "relative",
+        top: -3,
+        transition: transition("zoom"),
+        "@media (max-width: 380px)": { zoom: 0.35 },
+      },
     },
     bgWhite: { background: "#fafafa" },
     shadow: ["-webkit-box-shadow", "-moz-box-shadow", "boxShadow"].reduce((a, s) => ({ ...a, [s]: t.shadows[2] }), {}),
@@ -36,19 +43,14 @@ const Header = withStyles((t) => {
       fontSize: "2rem",
       fontWeight: 600,
       lineHeight: 1,
-      transition: t.transitions.create(["color", "background", "-webkit-background-clip", "background-clip", "-webkit-text-fill-color"], {
-        duration: t.transitions.duration.complex,
-        easing: t.transitions.easing.easeInOut,
-      }),
+      transition: transition("all"),
       whiteSpace: "nowrap",
       overflow: "hidden",
       flexGrow: 1,
       textOverflow: "ellipsis",
+      "@media (max-width: 380px)": { fontSize: "1.5rem" },
     },
-    titleShadow: {
-      "-webkit-filter": "drop-shadow(2px 2px 2px #FFF)",
-      filter: "drop-shadow(2px 2px 2px #FFF)",
-    },
+    titleShadow: { "-webkit-filter": "drop-shadow(2px 2px 2px #FFF)", filter: "drop-shadow(2px 2px 2px #FFF)" },
     bgText,
     white,
   };

@@ -1,7 +1,8 @@
 const initStore = {
   estados: [],
-  options: [],
+  paths: [],
   invitados: [],
+  menus: [],
 };
 
 export default initStore;

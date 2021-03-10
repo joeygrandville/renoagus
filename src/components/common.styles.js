@@ -1,6 +1,12 @@
 import { createMuiTheme, withStyles } from "@material-ui/core";
 import { array } from "./common";
 
+export const transition = (t, args) =>
+  t.transitions.create(args, {
+    duration: t.transitions.duration.complex,
+    easing: t.transitions.easing.easeInOut,
+  });
+
 export const fontFamily = [
   '"Khand"',
   "-apple-system",
@@ -33,7 +39,10 @@ export const withHomeStyles = withStyles({
   container: { ...container, maxWidth: undefined, textAlign: "center" },
   counter: { margin: "0 -2rem" },
 });
-export const withRsvpStyles = withStyles({ root: common, container: { ...container, "& h1": { lineHeight: "1em", marginTop: 0 } } });
+export const withRsvpStyles = withStyles({
+  root: { ...common },
+  container: { ...container, padding: "5rem 2.5rem 1rem 2rem", "& h1": { lineHeight: "1em", marginTop: 0 } },
+});
 
 export const withLoginStyles = withStyles(
   (t) => ({
@@ -49,10 +58,10 @@ export const publicTheme = createMuiTheme({ typography: { fontFamily } });
 
 export const privateTheme = createMuiTheme({
   typography: { fontFamily },
-  palette: { type: "dark", background: { paper: "#424242", default: "#212121" } },
+  palette: { type: "dark", background: { paper: "#424242", default: "#212121" }, secondary: { main: "#FFF" } },
   overrides: {
     MuiAppBar: { colorPrimary: { backgroundColor: "#333" } },
-    MuiTableCell: { root: { fontSize: "1rem" }, footer: { fontSize: "1rem", borderTop: "solid 2px rgb(81, 81, 81)" } },
+    MuiTableCell: { root: { fontSize: "1rem", padding: 8 }, footer: { fontSize: "1rem", borderTop: "solid 2px rgb(81, 81, 81)" } },
   },
 });
 
@@ -90,9 +99,57 @@ export const withStylesInput = withStyles((t) => ({
 }));
 
 export const withRsvpStepStyles = withStyles(
-  () => ({
-    container: { maxWidth: 500, minHeight: 85 },
+  (t) => ({
+    container: {
+      maxWidth: 500,
+      minHeight: 85,
+      [t.breakpoints.down("sm")]: { minHeight: "initial", "& .bg-button": { marginTop: t.spacing(1) } },
+      [t.breakpoints.down("xs")]: { "&.hide-xs, & .hide-xs": { display: "none" } },
+      [t.breakpoints.up("sm")]: { "&.show-xs, & .show-xs": { display: "none" } },
+    },
+    container2: { minHeight: "initial", paddingTop: t.spacing(1.5) },
     label: { fontSize: "1.17em", fontWeight: 600, paddingTop: "22px !important", ...bgText },
+    labelNp: { fontSize: "1.17em", fontWeight: 600, ...bgText },
+    nowrap: { whiteSpace: "nowrap" },
   }),
   { name: "rsvp-step" }
 );
+
+export const withAdminTableStyles = withStyles((t) => {
+  return {
+    root: {
+      "& input[type=file]": { display: "none" },
+      "& .np-l": { paddingLeft: 0 },
+      "& .nowrap": { whiteSpace: "nowrap" },
+      "& div.nowrap": { overflow: "hidden", textOverflow: "ellipsis" },
+      "& tr > th .admin-th-icon": { lineHeight: 1 },
+      "& tr > th .admin-th-title": { flexGrow: 1 },
+      "& tr > th:nth-child(1), & tr > th:nth-child(2)": {
+        [t.breakpoints.up("md")]: { minWidth: 245 },
+      },
+      "& tr > td:nth-child(1), & tr > td:nth-child(2)": {
+        [t.breakpoints.down("xs")]: {
+          maxWidth: 120,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        },
+      },
+      "& tr > th:nth-child(5)": {
+        [t.breakpoints.up("md")]: { width: 130 },
+      },
+      "& tr > th:nth-child(6)": {
+        [t.breakpoints.up("md")]: { width: 150 },
+        [t.breakpoints.down("xs")]: {
+          "& .admin-th-title": { display: "none" },
+          "& .admin-th-icon": { flexGrow: 1 },
+        },
+      },
+      [t.breakpoints.down("md")]: {
+        "& th.max, & td.max": { maxWidth: 150 },
+      },
+      "@media (max-width:1109px)": {
+        "& th.max, & td.max": { width: 0, padding: 0, "& > div": { width: 0, overflow: "hidden" } },
+      },
+    },
+  };
+});

@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { FbContextProvider } from "./firebase/context";
 import Public from "./views/public";
-import Admin from "./views/private";
+import Admin from "./views/private/admin";
 import Login from "./views/private/Login";
 
 const App = () => {

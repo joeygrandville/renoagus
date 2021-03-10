@@ -1,8 +1,8 @@
 import { GetApp } from "@material-ui/icons";
 import React from "react";
-import { handleEvent } from "../../components/common";
-import IconButton from "../../components/IconButton";
-import { useFbContext } from "../../firebase/context";
+import { handleEvent } from "../../../components/common";
+import IconButton from "../../../components/IconButton";
+import { useFbContext } from "../../../firebase/context";
 
 const DownloadButton = (props) => {
   const {

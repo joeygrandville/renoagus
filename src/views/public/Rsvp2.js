@@ -11,12 +11,12 @@ const Rsvp = ({ fullpageApi }) => (
           Podrás Asistir? <span className="form-required">*</span>
         </label>
         <div>
-          <label className="confirmation-radio-container">
+          <label className="bg-radio">
             Sí asistiré
             <input type="radio" name="confirmation-asistencia" value="Sí asistiré" />
             <span className="checkmark" />
           </label>
-          <label className="confirmation-radio-container">
+          <label className="bg-radio">
             No podré asistir
             <input type="radio" name="confirmation-asistencia" value="No podré asistir" />
             <span className="checkmark"></span>

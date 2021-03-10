@@ -14,7 +14,7 @@ main {
 
 .bg-gradient,
 .gm-style-iw,
-.confirmation-radio-container input:checked ~ .checkmark,
+.bg-radio input:checked ~ [class*="radio-group-checkmark"],
 .bg-button,
 .home-welcome,
 .reward-container,

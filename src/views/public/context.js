@@ -12,10 +12,12 @@ const date = new Date("2021-05-23T15:00:00Z");
 
 const PublicContextProvider = (props) => {
   const {
-    store: { estados: es },
+    store: { estados: es, menus: ms },
     db: { getInvitado, postInvitado },
+    parseInvitado,
   } = useFbContext();
   const estados = es.filter((e) => e.estado !== "Pendiente").map(({ id, descripcion, ...e }) => ({ id, text: descripcion, ...e }));
+  const menus = ms.map(({ id, menu }) => ({ id, text: menu }));
   const [state, setState] = useState({ home: true, step: 0, loading: false, date, ...anchors.reduce((ac, a, i) => ({ ...ac, [a]: i === 0 }), {}) });
   const { rsvp } = useQueryString();
   const showLoading = useCallback(() => setState((s) => ({ ...s, loading: true })), []);
@@ -26,6 +28,7 @@ const PublicContextProvider = (props) => {
         showLoading();
         return getInvitado(id)
           .then((invitado) => {
+            if (invitado.eliminado) throw new Error("Invitación no encontrada");
             setState((s) => ({ ...s, invitado, step: 1, loading: false }));
             return res(invitado);
           })
@@ -38,7 +41,7 @@ const PublicContextProvider = (props) => {
     (inv) =>
       new Promise((res, rej) => {
         showLoading();
-        return postInvitado(inv)
+        return postInvitado({ id: inv.id, ...parseInvitado(inv), history: { uid: "rsvp" } })
           .then((invitado) => {
             setState((s) => ({ ...s, invitado, step: 2, loading: false }));
             return res(invitado);
@@ -46,8 +49,9 @@ const PublicContextProvider = (props) => {
           .catch(rej)
           .finally(hideLoading);
       }),
-    [postInvitado, showLoading, hideLoading]
+    [postInvitado, showLoading, hideLoading, parseInvitado]
   );
+  const onResponseBack = useCallback(() => setState((s) => ({ ...s, step: 1, back: true })), []);
   const actions = {
     onLeave: useCallback(
       (origin, destination) =>
@@ -58,6 +62,7 @@ const PublicContextProvider = (props) => {
     ),
     onValidate,
     onConfirm,
+    onResponseBack,
     showLoading,
     hideLoading,
   };
@@ -68,7 +73,7 @@ const PublicContextProvider = (props) => {
   useEffect(() => {
     require("./index.css");
   }, []);
-  return <PublicContext.Provider value={{ state, estados, anchors, actions }} {...props} />;
+  return <PublicContext.Provider value={{ state, estados, anchors, actions, menus }} {...props} />;
 };
 
 export default PublicContextProvider;

@@ -1,8 +1,8 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Grid, Paper, Typography } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import React, { useCallback, useState } from "react";
-import { handleEvent } from "../../components/common";
-import IconButton from "../../components/IconButton";
+import { handleEvent } from "../../../components/common";
+import IconButton from "../../../components/IconButton";
 
 const useConfirmDelete = ({ onSubmit }) => {
   const [{ open, item }, setState] = useState({ open: false });

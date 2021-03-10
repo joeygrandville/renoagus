@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 import { useCallback, useEffect, useState } from "react";
+import { isEmail } from "../components/common";
 import initStore from "./initStore";
 
 const env = (path) => process.env[`REACT_APP_FIREBASE_${path}`];
@@ -29,7 +30,7 @@ export const db = {
       if (!val) return [];
       return Object.keys(val)
         .reduce((a, k) => [...a, { id: k, ...val[k] }], [])
-        .sort((a, b) => a.nombre.localeCompare(b.nombre));
+        .sort((a, b) => (a.nombre || "").localeCompare(b.nombre || ""));
     }),
   getInvitado: (id) =>
     once(`invitados/${id}`).then((s) => {
@@ -44,30 +45,137 @@ export const db = {
       if (!val) {
         r = ref().child("estados");
         return ["Pendiente", "Confirmado", "Rechazado"].reduce((a, estado, orden) => {
-          const id = r.push({ estado, orden }).key;
-          return [...a, { id, text: estado }];
+          const e = { estado, orden };
+          const id = r.push(e).key;
+          return [...a, { id, ...e }];
         }, []);
       }
       return Object.keys(val).reduce((a, k) => [...a, { id: k, ...val[k] }], []);
     });
   },
-  postInvitado: ({ id, nombre, email, estado, invitados }) =>
+  getPaths: () => {
+    let r = ref("paths").orderByChild("orden");
+    return once(null, r).then((s) => {
+      const val = s.val();
+      if (!val) {
+        r = ref().child("paths");
+        return [
+          { default_val: null, icon: "Person", name: "nombre", orden: 0, path: "Nombre", required: true, type: "string" },
+          { default_val: null, icon: "AlternateEmail", name: "email", orden: 1, path: "Email", required: false, type: "email" },
+          { default_val: null, icon: "Fingerprint", name: "id", orden: 2, path: "Código", required: null, type: null },
+          { default_val: null, icon: "Link", name: "link", orden: 3, path: "Link", required: null, type: null },
+          { default_val: "Pendiente", icon: "QueryBuilder", name: "estado", orden: 4, path: "Estado", required: true, type: "select:estados:estado" },
+          { default_val: 1, icon: "PlusOne", name: "invitados", orden: 5, path: "Invitados", required: true, type: "integer" },
+          { default_val: null, icon: "PermContactCalendar", name: "edad", orden: 6, path: "Edad", required: false, type: "integer" },
+          { default_val: null, icon: "Phone", name: "telefono", orden: 7, path: "Teléfono", required: false, type: "phone" },
+          { default_val: "Regular", icon: "Restaurant", name: "menu", orden: 8, path: "Menú", required: true, type: "select:menus:menu" },
+        ].reduce((a, p) => {
+          const id = r.push({ ...p, active: true }).key;
+          return [...a, { id, ...p, active: true }];
+        }, []);
+      }
+      return Object.keys(val).reduce((a, k) => [...a, { id: k, ...val[k] }], []);
+    });
+  },
+  getMenus: () => {
+    let r = ref("menus").orderByChild("orden");
+    return once(null, r).then((s) => {
+      const val = s.val();
+      if (!val) {
+        r = ref().child("menus");
+        return [{ menu: "Celíaco" }, { menu: "Regular" }, { menu: "Vegetariano" }].reduce((a, p) => {
+          const id = r.push({ ...p, active: true }).key;
+          return [...a, { id, ...p, active: true }];
+        }, []);
+      }
+      return Object.keys(val).reduce((a, k) => [...a, { id: k, ...val[k] }], []);
+    });
+  },
+  postInvitado: ({ id, history, ...other }) =>
     new Promise((res, rej) => {
       try {
+        const h = { ...history, date: new Date(), value: other };
         if (!id) {
-          const id = ref().child("invitados").push({ nombre, email, estado, invitados }).key;
-          return res({ id, nombre, email, estado, invitados });
+          const i = ref()
+            .child("invitados")
+            .push({ ...other, history: [h] }).key;
+          return res({ id: i, ...other });
         }
         const r = ref(`invitados/${id}`);
         r.get().then((s) => {
-          if (!s.val()) return rej("Invitado no encontrado");
-          r.set({ nombre, email, estado, invitados }).then(() => res({ id, nombre, email, estado, invitados }));
+          const val = s.val();
+          if (!val) return rej("Invitado no encontrado");
+          r.set({ ...other, history: [...(Array.isArray(val.history) ? val.history : []), h] }).then(() => res({ id, ...other }));
         });
       } catch (err) {
         return rej(err);
       }
     }),
-  deleteInvitado: (id) => ref(`invitados/${id}`).remove(),
+  deleteInvitado: (id, hist) =>
+    new Promise((res, rej) => {
+      try {
+        const r = ref(`invitados/${id}`);
+        r.get()
+          .then((s) => {
+            const val = s.val();
+            if (!val || val.eliminado) return rej("Invitado no encontrado");
+            const { history, ...other } = val;
+            const h = { ...hist, date: new Date(), value: { ...other, eliminado: true } };
+            r.set({ ...h.value, history: [...(Array.isArray(history) ? history : []), h] })
+              .then(res)
+              .catch(rej);
+          })
+          .catch(rej);
+      } catch (ex) {
+        return rej(ex);
+      }
+    }),
+  importInvitados: ({ delExisting, invitados }, hist) =>
+    new Promise((res, rej) => {
+      const r = ref("invitados");
+      const h = { ...hist, date: new Date() };
+      const importNow = () => {
+        try {
+          const result = invitados.reduce((a, i) => {
+            const id = r.push({ ...i, history: { ...h, value: i } }).key;
+            return [...a, { id, ...i }];
+          }, []);
+          return res(result);
+        } catch (ex) {
+          return rej(ex);
+        }
+      };
+      if (delExisting)
+        return once(null, r)
+          .then((sInvitados) => {
+            const invitados = sInvitados.val();
+            if (invitados)
+              return Promise.all(
+                Object.keys(invitados).map(
+                  (key) =>
+                    new Promise((iRes, iRej) => {
+                      const iR = ref(`invitados/${key}`);
+                      iR.get()
+                        .then((sInvitado) => {
+                          const invitado = sInvitado.val();
+                          if (invitado?.eliminado) return iRes("Invitado ya eliminado");
+                          const { history, ...other } = invitado;
+                          const iHist = { ...h, value: { ...other, eliminado: true } };
+                          iR.set({ ...iHist.value, history: [...(Array.isArray(history) ? history : []), iHist] })
+                            .then(iRes)
+                            .catch(iRej);
+                        })
+                        .catch(iRej);
+                    })
+                )
+              )
+                .then(importNow)
+                .catch(rej);
+            return importNow();
+          })
+          .catch(rej);
+      return importNow();
+    }),
 };
 
 export const useFirebase = () => {
@@ -96,5 +204,41 @@ export const useFirebase = () => {
       }),
     [loaded]
   );
-  return { ...state, store, setStore, signIn, signOut, db };
+  const parseInvitado = (i) => {
+    const errors = [];
+    const result = store.paths
+      .filter((p) => !!p.type)
+      .reduce((a, { default_val, name, required, type: t }) => {
+        const [type, source, srcname] = t.split(":");
+        let value;
+        switch (type) {
+          case "string":
+          case "phone":
+          case "email":
+            value = String(i[name] || "").trim();
+            if (!value && default_val) value = default_val;
+            if (type === "email" && value && !isEmail(value)) errors.push({ name, msg: "Email not valid" });
+            break;
+          case "integer":
+            value = parseInt(i[name], 0);
+            if (Number.isNaN(value)) value = 0;
+            if (!value && default_val >= 0) value = default_val;
+            break;
+          case "select":
+            value = String(i[name] || "").trim();
+            if (!value && default_val)
+              try {
+                value = store[source].find((s) => s[srcname] === default_val)?.id;
+              } catch (_e) {}
+            break;
+          default:
+        }
+        if (required && !value) errors.push({ name, msg: "Value required" });
+        if (!value) return a;
+        return { ...a, [name]: value };
+      }, {});
+    if (errors.length > 0) throw new Error(errors.reduce((a, { name, msg }) => `${a}${name}: ${msg}`, ""));
+    return result;
+  };
+  return { ...state, store, setStore, signIn, signOut, parseInvitado, db };
 };

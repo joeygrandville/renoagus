@@ -16,18 +16,17 @@ const RsvpStep1 = withRsvpStepStyles(({ classes }) => {
   const onSubmit = ({ codigo: { value } }) => {
     onChange({ target: { value } });
     if (!value) return false;
-    return onValidate(value)
-      .then(console.log)
-      .catch(({ message }) => setState((s) => ({ ...s, error: message })));
+    return onValidate(value).catch(({ message }) => setState((s) => ({ ...s, error: message })));
   };
   useEffect(() => {
     setState((s) => ({ ...s, value: rsvp || s.value }));
   }, [rsvp]);
   return (
     <>
-      <h3>Si recibiste un código de invitación, ingresalo abajo para confirmar tu asistencia</h3>
+      <h3>Si recibiste un código de invitación, ingresalo abajo para confirmar tu asistencia.</h3>
+      <h3>Podés hacerlo hasta el 23 de Abril.</h3>
       <Form {...{ onSubmit }}>
-        <Grid container wrap="nowrap" spacing={2} className={classes.container}>
+        <Grid container spacing={2} wrap="nowrap" className={classes.container} justify="flex-end">
           <Grid item className={classes.label}>
             Código
           </Grid>
@@ -41,6 +40,13 @@ const RsvpStep1 = withRsvpStepStyles(({ classes }) => {
             />
             {error && <FormHelperText error>{error}</FormHelperText>}
           </Grid>
+          <Grid item className="hide-xs">
+            <BgButton type="submit" {...{ disabled }}>
+              Validar
+            </BgButton>
+          </Grid>
+        </Grid>
+        <Grid container className={`${classes.container} show-xs`} justify="flex-end">
           <Grid item>
             <BgButton type="submit" {...{ disabled }}>
               Validar
