@@ -1,6 +1,6 @@
 import { Grid, Table, TableCell, TableHead, TableRow } from "@material-ui/core";
 import React, { lazy, Suspense, useEffect, useState } from "react";
-import shortid from "shortid";
+// import shortid from "shortid";
 import { useFbContext } from "../../../firebase/context";
 
 const importIcon = (icon) => lazy(() => import(`@material-ui/icons/${icon}`).catch(() => import("@material-ui/icons/Help")));
@@ -10,7 +10,7 @@ const DynIcon = ({ icon }) => {
   useEffect(() => {
     const loadIcon = async () => {
       const Icon = await importIcon(icon);
-      return <Icon key={shortid.generate()} />;
+      return <Icon />;
     };
     loadIcon().then(setView);
   }, [icon]);

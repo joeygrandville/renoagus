@@ -1,28 +1,25 @@
-import { withStyles } from "@material-ui/core";
-import clsx from "clsx";
+import { makeStyles } from "@material-ui/core";
 import React from "react";
 import { transition } from "./common.styles";
 
-const RadioGroup = withStyles(
-  (t) => ({
-    label: {
-      display: "block",
-      position: "relative",
-      paddingLeft: 25,
-      margin: "6px 0",
-      cursor: "pointer",
-      "-webkit-user-select": "none",
-      "-moz-user-select": "none",
-      "-ms-user-select": "none",
-      userSelect: "none",
-      transition: transition(t, "all"),
-      fontSize: 20,
-      lineHeight: 1.3,
-      "& input": { position: "absolute", opacity: 0, cursor: "pointer" },
-      "&:hover input ~ [class*=radio-group-checkmark]": { backgroundColor: "#ccc" },
-    },
-    horizontal: { display: "inline-block", margin: t.spacing(0, 1.5, 0, 0) },
-    checkmark: {
+const useStyles = makeStyles((t) => ({
+  label: {
+    display: "block",
+    position: "relative",
+    paddingLeft: 25,
+    margin: "6px 0",
+    cursor: "pointer",
+    "-webkit-user-select": "none",
+    "-moz-user-select": "none",
+    "-ms-user-select": "none",
+    userSelect: "none",
+    transition: transition(t, "all"),
+    fontSize: 20,
+    lineHeight: 1.3,
+    "& input": { display: "none" },
+    "&:hover input ~ span.checkmark": { backgroundColor: "#ccc" },
+    "& input:checked ~ span.checkmark:after": { display: "block" },
+    "& span.checkmark": {
       position: "absolute",
       top: "2.5px",
       left: 0,
@@ -43,23 +40,25 @@ const RadioGroup = withStyles(
         background: "#FFF",
         transition: transition(t, "all"),
       },
-      "input:checked ~ &:after": { display: "block" },
     },
-  }),
-  { name: "radio-group", generateId: () => "" }
-)(({ classes, horizontal, name, options, value, onChange }) => {
+  },
+  horizontal: { display: "inline-block", margin: t.spacing(0, 1.5, 0, 0) },
+}));
+
+const RadioGroup = ({ horizontal, name, options, value, onChange }) => {
+  const classes = useStyles();
   if (!Array.isArray(options)) return null;
   const onFireChange = ({ target: { value } }) => {
     if (typeof onChange !== "function") return false;
     return onChange({ target: { name, value: parseInt(value, 0) || value } });
   };
   return options.map(({ id, text }) => (
-    <label className={clsx("bg-radio", classes.label, { [classes.horizontal]: horizontal })} key={id}>
+    <label className={`bg-radio ${classes.label}${horizontal ? ` ${classes.horizontal}` : ""}`} key={id}>
       {text}
       <input type="radio" value={id} checked={id === value} {...{ name }} onChange={onFireChange} />
-      <span className={classes.checkmark} />
+      <span className="checkmark" />
     </label>
   ));
-});
+};
 
 export default RadioGroup;

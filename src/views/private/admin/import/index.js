@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import React, { useCallback, useState } from "react";
-import * as xlsx from "xlsx";
+import { read as xlsx_read, utils as xlsx_utils } from "xlsx";
 import Checkbox from "../../../../components/Checkbox";
 import { handleEvent } from "../../../../components/common";
 import IconButton from "../../../../components/IconButton";
@@ -151,8 +151,8 @@ const useImport = ({ onSubmit }) => {
     try {
       var reader = new FileReader();
       reader.onload = function ({ target: { result } }) {
-        const readedData = xlsx.read(result, { type: "binary" });
-        const [head, ...rows] = xlsx.utils.sheet_to_json(readedData.Sheets[readedData.SheetNames[0]], { header: 1 });
+        const readedData = xlsx_read(result, { type: "binary" });
+        const [head, ...rows] = xlsx_utils.sheet_to_json(readedData.Sheets[readedData.SheetNames[0]], { header: 1 });
         const reduce = (r, idx) => head.reduce((a, h, i) => ({ ...a, [h]: r.length > i ? r[i] : undefined }), { id: idx + 1, checked: true });
 
         setState((s) => ({
