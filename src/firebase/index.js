@@ -94,7 +94,7 @@ export const db = {
   postInvitado: ({ id, history, ...other }) =>
     new Promise((res, rej) => {
       try {
-        const h = { ...history, date: new Date(), value: other };
+        const h = { ...history, date: new Date().getTime(), value: other };
         if (!id) {
           const i = ref()
             .child("invitados")
@@ -120,7 +120,7 @@ export const db = {
             const val = s.val();
             if (!val || val.eliminado) return rej("Invitado no encontrado");
             const { history, ...other } = val;
-            const h = { ...hist, date: new Date(), value: { ...other, eliminado: true } };
+            const h = { ...hist, date: new Date().getTime(), value: { ...other, eliminado: true } };
             r.set({ ...h.value, history: [...(Array.isArray(history) ? history : []), h] })
               .then(res)
               .catch(rej);
@@ -133,7 +133,7 @@ export const db = {
   importInvitados: ({ delExisting, invitados }, hist) =>
     new Promise((res, rej) => {
       const r = ref("invitados");
-      const h = { ...hist, import: true, date: new Date() };
+      const h = { ...hist, import: true, date: new Date().getTime() };
       const importNow = () => {
         try {
           const result = invitados.reduce((a, i) => {
