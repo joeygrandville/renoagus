@@ -1,9 +1,9 @@
-import { FormControl, Grid, IconButton, Input, InputLabel, MenuItem, Select } from "@material-ui/core";
+import { FormControl, FormHelperText, Grid, IconButton, Input, InputLabel, MenuItem, Select } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import React, { memo, useState } from "react";
 import { handleEvent, memProps } from "./common";
 
-const SelectInput = memo(({ allowClear, disabled, label, name, onChange, options, fullWidth, ...other }) => {
+const SelectInput = memo(({ allowClear, disabled, error, label, name, onChange, options, fullWidth = true, ...other }) => {
   const renderValue = (val) => {
     const value = (() => options.find(({ id: oid }) => String(oid) === String(val))?.text || "")();
     return (
@@ -36,7 +36,7 @@ const SelectInput = memo(({ allowClear, disabled, label, name, onChange, options
     ...other,
   };
   return (
-    <FormControl {...{ fullWidth }}>
+    <FormControl {...{ fullWidth }} error={!!error}>
       {label && <InputLabel>{label}</InputLabel>}
       <Select {...props}>
         {options.map(({ id, text }) => (
@@ -45,6 +45,7 @@ const SelectInput = memo(({ allowClear, disabled, label, name, onChange, options
           </MenuItem>
         ))}
       </Select>
+      {typeof error === "string" && <FormHelperText error>{error}</FormHelperText>}
     </FormControl>
   );
 }, memProps(["allowClear", "value", "error", "options", "placeholder"]));

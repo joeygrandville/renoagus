@@ -4,10 +4,12 @@ import { FbContextProvider } from "./firebase/context";
 import Public from "./views/public";
 import Admin from "./views/private/admin";
 import Login from "./views/private/Login";
+import ToastContainer from "./components/ToastContainer";
 
 const App = () => {
   return (
     <FbContextProvider>
+      <ToastContainer />
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Public} />

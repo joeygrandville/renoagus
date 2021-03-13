@@ -2,9 +2,9 @@ import { Tooltip } from "@material-ui/core";
 import Button from "@material-ui/core/IconButton";
 import React from "react";
 
-const IconButton = ({ icon, tooltip, disabled, ...other }) => {
+const IconButton = ({ forwardRef, icon, tooltip, disabled, ...other }) => {
   const btn = (
-    <Button size="small" {...other} {...{ disabled }}>
+    <Button size="small" ref={forwardRef} {...other} {...{ disabled }}>
       {icon}
     </Button>
   );

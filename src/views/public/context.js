@@ -26,14 +26,19 @@ const PublicContextProvider = (props) => {
     (id) =>
       new Promise((res, rej) => {
         showLoading();
-        return getInvitado(id)
-          .then((invitado) => {
-            if (invitado.eliminado) throw new Error("Invitación no encontrada");
-            setState((s) => ({ ...s, invitado, step: 1, loading: false }));
-            return res(invitado);
-          })
-          .catch(rej)
-          .finally(hideLoading);
+        try {
+          return getInvitado(id)
+            .then((invitado) => {
+              if (invitado.eliminado) throw new Error("Invitación no encontrada");
+              setState((s) => ({ ...s, invitado, step: 1, loading: false }));
+              return res(invitado);
+            })
+            .catch(rej);
+        } catch (ex) {
+          return rej(ex);
+        } finally {
+          hideLoading();
+        }
       }),
     [getInvitado, showLoading, hideLoading]
   );

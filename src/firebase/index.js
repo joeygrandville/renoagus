@@ -33,19 +33,25 @@ export const db = {
         .sort((a, b) => (a.nombre || "").localeCompare(b.nombre || ""));
     }),
   getInvitado: (id) =>
-    once(`invitados/${id}`).then((s) => {
-      const val = s.val();
-      if (!val) throw new Error("Código no válido");
-      return { id, ...val };
-    }),
+    new Promise((res, rej) =>
+      once(`invitados/${id}`).then((s) => {
+        const val = s.val();
+        if (!val) return rej({ message: "Código no válido" });
+        return res({ id, ...val });
+      })
+    ),
   getEstados: () => {
     let r = ref("estados").orderByChild("orden");
     return once(null, r).then((s) => {
       const val = s.val();
       if (!val) {
         r = ref().child("estados");
-        return ["Pendiente", "Confirmado", "Rechazado"].reduce((a, estado, orden) => {
-          const e = { estado, orden };
+        return [
+          { estado: "Pendiente" },
+          { descripcion: "Sí asistiré", details: true, estado: "Confirmado" },
+          { descripcion: "No podré asistir", estado: "Rechazado" },
+        ].reduce((a, item, orden) => {
+          const e = { ...item, orden };
           const id = r.push(e).key;
           return [...a, { id, ...e }];
         }, []);

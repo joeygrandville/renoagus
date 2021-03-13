@@ -10,7 +10,7 @@ const useConfirmDelete = ({ onSubmit }) => {
   const onDelete =
     item &&
     typeof onSubmit === "function" &&
-    handleEvent((e) => {
+    handleEvent(() => {
       setState((s) => ({ ...s, open: false }));
       return onSubmit(item);
     });
@@ -49,7 +49,7 @@ const useConfirmDelete = ({ onSubmit }) => {
       </DialogActions>
     </Dialog>
   );
-  const onConfirm = useCallback((i) => setState((s) => ({ ...s, open: true, item: i })), []);
+  const onConfirm = useCallback((_e, i) => setState((s) => ({ ...s, open: true, item: i })), []);
   return { modal, onConfirm };
 };
 

@@ -61,7 +61,29 @@ export const privateTheme = createMuiTheme({
   palette: { type: "dark", background: { paper: "#424242", default: "#212121" }, secondary: { main: "#FFF" } },
   overrides: {
     MuiAppBar: { colorPrimary: { backgroundColor: "#333" } },
-    MuiTableCell: { root: { fontSize: "1rem", padding: 8 }, footer: { fontSize: "1rem", borderTop: "solid 2px rgb(81, 81, 81)" } },
+    MuiTable: {
+      root: {
+        "div[class*=horizontalScrollContainer] table&": { background: "#212121" },
+        ".scroll-table-y &": { borderCollapse: "separate" },
+      },
+    },
+    MuiTableCell: {
+      root: { fontSize: "1rem !important", padding: "8px 16px" },
+      body: { height: 52 },
+      footer: {
+        fontSize: "1rem",
+        borderTop: "solid 2px rgb(81, 81, 81)",
+        background: "#212121",
+        ".scroll-table-y &": { position: "sticky", bottom: 0 },
+      },
+      paddingNone: { "& > div": { display: "flex", flexDirection: "row-reverse", "& > *:not(:last-child)": { marginLeft: 4 } } },
+    },
+    MuiTableSortLabel: { root: { display: "flex", "& > div": { flexGrow: 1 } } },
+    MuiToolbar: {
+      regular: {
+        "&[class*=MTableToolbar]": { minHeight: "initial", marginBottom: 8, "@media (min-width: 600px)": { minHeight: "initial" } },
+      },
+    },
   },
 });
 
@@ -114,42 +136,3 @@ export const withRsvpStepStyles = withStyles(
   }),
   { name: "rsvp-step" }
 );
-
-export const withAdminTableStyles = withStyles((t) => {
-  return {
-    root: {
-      "& input[type=file]": { display: "none" },
-      "& .np-l": { paddingLeft: 0 },
-      "& .nowrap": { whiteSpace: "nowrap" },
-      "& div.nowrap": { overflow: "hidden", textOverflow: "ellipsis" },
-      "& tr > th .admin-th-icon": { lineHeight: 1 },
-      "& tr > th .admin-th-title": { flexGrow: 1 },
-      "& tr > th:nth-child(1), & tr > th:nth-child(2)": {
-        [t.breakpoints.up("md")]: { minWidth: 245 },
-      },
-      "& tr > td:nth-child(1), & tr > td:nth-child(2)": {
-        [t.breakpoints.down("xs")]: {
-          maxWidth: 120,
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-      },
-      "& tr > th:nth-child(5)": {
-        [t.breakpoints.up("md")]: { width: 130 },
-      },
-      "& tr > th:nth-child(6)": {
-        [t.breakpoints.up("md")]: { width: 150 },
-        [t.breakpoints.down("xs")]: {
-          "& .admin-th-title": { display: "none" },
-          "& .admin-th-icon": { flexGrow: 1 },
-        },
-      },
-      [t.breakpoints.down("md")]: {
-        "& th.max, & td.max": { maxWidth: 150 },
-      },
-      "@media (max-width:1109px)": {
-        "& th.max, & td.max": { width: 0, padding: 0, "& > div": { width: 0, overflow: "hidden" } },
-      },
-    },
-  };
-});

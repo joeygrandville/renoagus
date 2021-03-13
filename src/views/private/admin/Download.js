@@ -1,31 +1,16 @@
-import { Menu, MenuItem } from "@material-ui/core";
-import { GetApp } from "@material-ui/icons";
-import React from "react";
 import { write as xlsx_write, utils as xlsx_utils } from "xlsx";
-import { handleEvent } from "../../../components/common";
-import IconButton from "../../../components/IconButton";
 import { useFbContext } from "../../../firebase/context";
 
-const DownloadButton = (props) => {
+const useDownload = () => {
   const {
     store,
     store: { estados, invitados, paths, menus },
   } = useFbContext();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const find = (arr, path, id) => (Array.isArray(arr) && (arr.find((a) => a.id === id) || {})[path]) || "";
   const quoteIfComma = (txt) => (String(txt || "").indexOf(";") >= 0 ? `"${txt}"` : String(txt || "").replace(/"/g, '""'));
 
   const getContent = (excel) => {
-    setAnchorEl(null);
     if (excel) {
       const fitToColumn = (data) => data[0].map((_a, i) => ({ wch: Math.max(...data.map((a) => a[i].toString().length)) }));
       const ps = paths.filter((p) => p.active);
@@ -72,25 +57,16 @@ const DownloadButton = (props) => {
     };
   };
 
-  const onDownload = (excel) =>
-    handleEvent(() => {
-      const { blob, ext } = getContent(excel);
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.download = `invitados.${ext}`;
-      link.href = url;
-      link.click();
-      URL.revokeObjectURL(url);
-    });
-  return (
-    <>
-      <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} tooltip="Descargar Datos" icon={<GetApp />} {...props} />
-      <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        <MenuItem onClick={onDownload()}>JSON</MenuItem>
-        <MenuItem onClick={onDownload(true)}>Excel</MenuItem>
-      </Menu>
-    </>
-  );
+  const handleDownload = (excel) => () => {
+    const { blob, ext } = getContent(excel);
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.download = `invitados.${ext}`;
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+  return { handleDownload };
 };
 
-export default DownloadButton;
+export default useDownload;

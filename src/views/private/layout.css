@@ -8,3 +8,21 @@
 .admin-header-title {
   flex-grow: 1;
 }
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  border: 2px solid white;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+::-webkit-scrollbar-corner {
+  -webkit-appearance: none;
+}
+
+.scroll-table-y div[class*="horizontalScrollContainer"] > div > div {
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+}

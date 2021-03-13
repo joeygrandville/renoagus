@@ -22,7 +22,7 @@ const HeadCell = ({ id, imported, onChange, paths, value }) => {
         )}
         <Grid item style={{ flexGrow: 1 }}>
           <div>{imported}</div>
-          <SelectInput fullWidth allowClear name={`${id}-head`} {...{ value, options, onChange }} />
+          <SelectInput allowClear name={`${id}-head`} {...{ value, options, onChange }} />
         </Grid>
       </Grid>
     </TableCell>

@@ -1,4 +1,4 @@
-import { Input, withStyles } from "@material-ui/core";
+import { FormControl, FormHelperText, Input, withStyles } from "@material-ui/core";
 import React, { memo } from "react";
 import NumberFormat from "react-number-format";
 import { memProps } from "./common";
@@ -10,7 +10,7 @@ export const IntegerInput = memo(
         textAlign: "center",
       },
     },
-  })(({ name, onChange, ...other }) => {
+  })(({ fullWidth = true, error, name, onChange, ...other }) => {
     const props = {
       name,
       onKeyPress: (e) => ![...Array(10).keys()].some((x) => String(x) === e.key) && e.preventDefault(),
@@ -22,7 +22,12 @@ export const IntegerInput = memo(
       decimalScale: 0,
       ...other,
     };
-    return <NumberFormat fullWidth {...props} />;
+    return (
+      <FormControl error={!!error}>
+        <NumberFormat {...{ fullWidth }} {...props} />
+        {typeof error === "string" && <FormHelperText error>{error}</FormHelperText>}
+      </FormControl>
+    );
   }, memProps(["value", "error", "placeholder"]))
 );
 

@@ -1,6 +1,5 @@
-import { AlternateEmail, Fingerprint, Help, PermContactCalendar, Person, Phone, PlusOne, QueryBuilder, Restaurant } from "@material-ui/icons";
+import { AlternateEmail, Fingerprint, Help, Link, PermContactCalendar, Person, Phone, PlusOne, QueryBuilder, Restaurant } from "@material-ui/icons";
 import React from "react";
-import { Link } from "react-router-dom";
 
 const DynIcon = ({ icon, ...other }) => {
   const Icon = (() => {
