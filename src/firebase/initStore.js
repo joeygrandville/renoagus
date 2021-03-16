@@ -3,6 +3,7 @@ const initStore = {
   paths: [],
   invitados: [],
   menus: [],
+  settings: {},
 };
 
 export default initStore;

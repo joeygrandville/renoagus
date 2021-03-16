@@ -1,5 +1,6 @@
 import { FormHelperText, Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import BgButton from "../../../components/BgButton";
 import { withRsvpStepStyles } from "../../../components/common.styles";
 import Form from "../../../components/Form";
@@ -11,6 +12,7 @@ const RsvpStep1 = withRsvpStepStyles(({ classes }) => {
     state: { rsvp, loading: disabled },
     actions: { onValidate },
   } = usePublicContext();
+
   const [{ error, value }, setState] = useState({ error: "", value: "" });
   const onChange = ({ target: { value } }) => setState((s) => ({ ...s, value, error: value ? "" : "El código es requerido" }));
   const onSubmit = ({ codigo: { value } }) => {
@@ -18,8 +20,17 @@ const RsvpStep1 = withRsvpStepStyles(({ classes }) => {
     if (!value) return false;
     return onValidate(value).catch(({ message }) => setState((s) => ({ ...s, error: message })));
   };
+  const history = useHistory();
   useEffect(() => {
-    setState((s) => ({ ...s, value: rsvp || s.value }));
+    setState((s) => {
+      if (rsvp) {
+        setTimeout(() => {
+          onSubmit({ codigo: { value: rsvp } });
+          history.replace(`/?rsvp=${rsvp}#confirmation`);
+        }, 100);
+      }
+      return { ...s, value: rsvp || s.value };
+    });
   }, [rsvp]);
   return (
     <>

@@ -79,11 +79,6 @@ export const privateTheme = createMuiTheme({
       paddingNone: { "& > div": { display: "flex", flexDirection: "row-reverse", "& > *:not(:last-child)": { marginLeft: 4 } } },
     },
     MuiTableSortLabel: { root: { display: "flex", "& > div": { flexGrow: 1 } } },
-    MuiToolbar: {
-      regular: {
-        "&[class*=MTableToolbar]": { minHeight: "initial", marginBottom: 8, "@media (min-width: 600px)": { minHeight: "initial" } },
-      },
-    },
   },
 });
 

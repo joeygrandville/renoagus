@@ -6,7 +6,24 @@
 }
 
 .admin-header-title {
+  padding-right: 32px;
+}
+
+.admin-header-title + .MuiTabs-root {
   flex-grow: 1;
+}
+.admin-header-title + .MuiTabs-root a.MuiTab-root,
+.admin-header-title + .MuiTabs-root button.MuiTab-root {
+  min-width: initial !important;
+  min-height: 56px !important;
+}
+
+@media (min-width: 600px) {
+  .admin-header-title + .MuiTabs-root a.MuiTab-root,
+  .admin-header-title + .MuiTabs-root button.MuiTab-root {
+    min-width: initial !important;
+    min-height: 64px !important;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -22,7 +39,7 @@
   -webkit-appearance: none;
 }
 
-.scroll-table-y div[class*="horizontalScrollContainer"] > div > div {
+.scroll-table-y > .MuiToolbar-root + div > div > div {
   max-height: calc(100vh - 140px);
   overflow-y: auto;
 }

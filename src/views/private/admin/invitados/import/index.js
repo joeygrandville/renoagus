@@ -16,10 +16,10 @@ import {
 import { Close } from "@material-ui/icons";
 import React, { useCallback, useState } from "react";
 import { read as xlsx_read, utils as xlsx_utils } from "xlsx";
-import Checkbox from "../../../../components/Checkbox";
-import { handleEvent } from "../../../../components/common";
-import IconButton from "../../../../components/IconButton";
-import { useFbContext } from "../../../../firebase/context";
+import Checkbox from "../../../../../components/Checkbox";
+import { handleEvent } from "../../../../../components/common";
+import IconButton from "../../../../../components/IconButton";
+import { useFbContext } from "../../../../../firebase/context";
 import HeadCell from "./HeadCell";
 
 const useImport = ({ onSubmit }) => {

@@ -29,7 +29,7 @@ const PublicContextProvider = (props) => {
         try {
           return getInvitado(id)
             .then((invitado) => {
-              if (invitado.eliminado) throw new Error("Invitación no encontrada");
+              if (invitado.eliminado) throw new Error("Código no válido");
               setState((s) => ({ ...s, invitado, step: 1, loading: false }));
               return res(invitado);
             })
@@ -72,9 +72,8 @@ const PublicContextProvider = (props) => {
     hideLoading,
   };
   useEffect(() => {
-    setState((s) => ({ ...s, rsvp, loading: Boolean(rsvp) }));
-    if (rsvp) onValidate(rsvp);
-  }, [rsvp, onValidate]);
+    setState((s) => ({ ...s, rsvp }));
+  }, [rsvp]);
   useEffect(() => {
     require("./index.css");
   }, []);

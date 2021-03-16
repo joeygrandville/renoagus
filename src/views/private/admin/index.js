@@ -1,31 +1,26 @@
 import React from "react";
-import useConfirmDelete from "./ConfirmDelete";
-import useImport from "./import";
-import Layout from "../Layout";
-import AdminContextProvider, { useAdminContext } from "./context";
-import AdminTable from "./table/index";
+import { Redirect, Route, Switch, useRouteMatch } from "react-router";
+import Layout, { PrivateContainer, Toolbar } from "../Layout";
+import AdminContextProvider from "./context";
+import Invitados from "./invitados";
 
-const AdminWrapper = () => {
-  const {
-    actions: { onDelete, onImport },
-  } = useAdminContext();
-  const { modal, onConfirm } = useConfirmDelete({ onSubmit: onDelete });
-  const { importModal, onUploadChange } = useImport({ onSubmit: onImport });
+const Admin = () => {
+  const { isExact, path } = useRouteMatch();
   return (
-    <>
-      <AdminTable {...{ onConfirm, onUploadChange }} />
-      {modal}
-      {importModal}
-    </>
+    <Layout>
+      {isExact && <Redirect to={`${path}/invitados`} />}
+      <AdminContextProvider>
+        <Toolbar />
+        <PrivateContainer>
+          <Switch>
+            <Route path={`${path}/invitados`}>
+              <Invitados />
+            </Route>
+          </Switch>
+        </PrivateContainer>
+      </AdminContextProvider>
+    </Layout>
   );
 };
-
-const Admin = () => (
-  <Layout>
-    <AdminContextProvider>
-      <AdminWrapper />
-    </AdminContextProvider>
-  </Layout>
-);
 
 export default Admin;

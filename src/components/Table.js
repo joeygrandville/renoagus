@@ -79,7 +79,16 @@ const localization = {
 const StyledToolbar = withStyles(
   (t) => {
     return {
-      root: { paddingRight: 0, overflow: "hidden" },
+      root: {
+        paddingRight: 0,
+        overflow: "hidden",
+        justifyContent: "flex-end",
+        "&.MuiToolbar-gutters": {
+          minHeight: "initial",
+          marginBottom: 8,
+          "@media (min-width: 600px)": { minHeight: "initial" },
+        },
+      },
       title: {
         flexGrow: 1,
         [t.breakpoints.up("sm")]: { marginLeft: -24 },
@@ -125,8 +134,10 @@ const MaterialTable = ({
       Container: ({ children }) => children,
       Action: (props) => {
         const { action, data } = props;
-        const { custom, icon: Icon, onClick } = typeof action?.action === "function" ? action.action(props) : action;
-        if (custom) return <Icon onClick={typeof onClick === "function" ? (event) => onClick(data, event) : undefined} />;
+        const aProps = typeof action?.action === "function" ? action.action(props) : action;
+        if (!aProps) return null;
+        const { custom, icon: Icon, onClick } = aProps;
+        if (custom) return <Icon onClick={typeof onClick === "function" ? (event) => onClick(data, event) : undefined} data={data} />;
         return <MTableAction {...props} size="small" />;
       },
       ...(components || {}),

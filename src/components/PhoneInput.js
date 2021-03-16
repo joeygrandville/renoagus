@@ -5,6 +5,8 @@ import { memProps } from "./common";
 
 export const mask = [/[1-9]/, /\d/, /\d/, " ", /\d/, " ", /\d/, /\d/, " ", /\d/, /\d/, /\d/, /\d/];
 
+export const nsmask = mask.filter((m) => m !== " ");
+
 const PhoneMaskedInput = ({ inputRef, ...other }) => {
   return <MaskedInput {...other} ref={(ref) => inputRef(ref ? ref.inputElement : null)} {...{ mask }} placeholderChar={"\u2000"} showMask />;
 };

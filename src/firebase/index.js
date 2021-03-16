@@ -182,6 +182,21 @@ export const db = {
           .catch(rej);
       return importNow();
     }),
+  getSettings: () =>
+    once("settings").then((s) => {
+      const val = s.val();
+      if (!val) {
+        const nval = {
+          wamsg:
+            "¡¡FORMALIZAMOS!! y queremos compartirlo con ustedes.\r\nPor favor confirmá si podrás acompañarnos el 23 de Mayo, ingresando al siguiente link:\r\n{{url}}\r\nPodés hacerlo hasta el 23 de abril",
+          wadesk: true,
+        };
+        ref("settings").set(nval);
+        return nval;
+      }
+      console.log(val);
+      return val;
+    }),
 };
 
 export const useFirebase = () => {

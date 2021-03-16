@@ -56,3 +56,14 @@ export const useValidation = (schema) => {
   const clearError = useCallback(() => setState({ error: {}, valid: true }), []);
   return { error, validateSchema, clearError, valid };
 };
+
+export const openLink = (href) => {
+  const link = document.createElement("a");
+  link.rel = "noreferrer";
+  link.href = href;
+  link.target = "_blank";
+  link.click();
+  link.remove();
+};
+
+export const rsvpHref = (id) => `${window.location.origin}?rsvp=${id}`;

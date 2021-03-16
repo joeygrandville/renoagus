@@ -1,6 +1,6 @@
 import { Grid } from "@material-ui/core";
 import { conformToMask } from "react-text-mask";
-import { isEmail } from "../../../../components/common";
+import { isEmail, rsvpHref } from "../../../../components/common";
 import DynIcon from "../../../../components/DynamicIcon";
 import IntegerInput from "../../../../components/IntegerInput";
 import PhoneInput, { mask } from "../../../../components/PhoneInput";
@@ -36,7 +36,7 @@ export const mapColumns = (store) =>
           if (p.name === "link") {
             column.render = (r) => {
               if (!r.id) return "";
-              const link = `${window.location.origin}?rsvp=${r.id}#confirmation`;
+              const link = rsvpHref(r.id);
               return (
                 <a href={link} target="_blank" rel="noreferrer">
                   {link}

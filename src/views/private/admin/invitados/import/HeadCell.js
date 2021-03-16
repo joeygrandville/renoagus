@@ -1,8 +1,8 @@
 import { Grid, TableCell } from "@material-ui/core";
 import React from "react";
-import DynIcon from "../../../../components/DynamicIcon";
-import SelectInput from "../../../../components/SelectInput";
-import { useFbContext } from "../../../../firebase/context";
+import DynIcon from "../../../../../components/DynamicIcon";
+import SelectInput from "../../../../../components/SelectInput";
+import { useFbContext } from "../../../../../firebase/context";
 
 const HeadCell = ({ id, imported, onChange, paths, value }) => {
   const {

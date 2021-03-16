@@ -3,7 +3,7 @@ import { Directions } from "@material-ui/icons";
 import { GoogleMap, InfoWindow, useJsApiLoader } from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
 import LinkButton from "../../components/LinkButton";
-import { handleEvent } from "../../components/common";
+import { handleEvent, openLink } from "../../components/common";
 import { usePublicContext } from "./context";
 
 const env = (path, lat) => parseFloat(process.env[`REACT_APP_MAP_${path}_${lat ? "LAT" : "LNG"}`]);
@@ -17,13 +17,7 @@ const Location = () => {
   const { isLoaded } = useJsApiLoader({ id: "map-location", googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY });
   const [map, setMap] = useState(null);
   const options = { mapContainerClassName: "map-container", center, zoom: 13, onLoad: setMap, onUnmount: () => setMap(null) };
-  const onClick = handleEvent(() => {
-    const link = document.createElement("a");
-    link.rel = "noreferrer";
-    link.href = directions;
-    link.target = "_blank";
-    link.click();
-  });
+  const onClick = handleEvent(() => openLink(directions));
   const {
     state: { location },
   } = usePublicContext();
