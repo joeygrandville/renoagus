@@ -17,20 +17,24 @@ const AdminTable = ({ onConfirm, onUploadChange }) => {
     store,
     actions: { onSubmit },
   } = useAdminContext();
-  const data = store.invitados.filter((i) => !i.eliminado);
+  const {
+    invitados,
+    settings: { wamsg, wadesk },
+  } = store;
+  const data = invitados.filter((i) => !i.eliminado);
   const tableProps = {
     columns: mapColumns(store),
-    options: { draggable: false, addRowPosition: "first" /* , maxBodyHeight: "calc(100vh - 140px)" */ },
+    options: { draggable: false, addRowPosition: "first" },
     actions: [
       { icon: Delete, tooltip: "Eliminar", onClick: onConfirm },
       {
         icon: ({ data, ...p }) => (!data?.telefono && <></>) || <IconButton icon={<WhatsApp />} tooltip="Enviar por WhatsApp" {...p} />,
         custom: true,
         onClick: ({ id, telefono }) => {
-          const msg = `¡¡FORMALIZAMOS!! y queremos compartirlo con ustedes.\r\nPor favor confirmá si podrás acompañarnos el 23 de Mayo, ingresando al siguiente link:\r\n${rsvpHref(
-            id
-          )}\r\nPodés hacerlo hasta el 23 de abril`;
-          return openLink(`whatsapp://send?l=es&phone=549${conformToMask(telefono, nsmask).conformedValue}&text=${encodeURI(msg)}`);
+          const msg = wamsg.replace(/{{url}}/g, rsvpHref(id));
+          const phone = conformToMask(telefono, nsmask).conformedValue;
+          const waurl = wadesk ? "whatsapp://" : "https://web.whatsapp.com/";
+          return openLink(`${waurl}send?l=es&phone=549${phone}&text=${encodeURI(msg)}`);
         },
       },
       ...(data.length ? [{ icon: GetApp, isFreeAction: true, tooltip: "Descargar Excel", onClick: handleDownload(true) }] : []),

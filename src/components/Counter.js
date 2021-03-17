@@ -30,7 +30,7 @@ const Item = ({ value, label, labels }) => {
 
 const Counter = ({ labels, props }) => {
   const {
-    state: { date },
+    settings: { loading, eventDate },
   } = usePublicContext();
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) return <span>You are good to go!</span>;
@@ -43,9 +43,7 @@ const Counter = ({ labels, props }) => {
     return items.map(({ label, value }) => <Item {...{ key: label, label, value, labels }} />);
   };
   return (
-    <div className="countdown-container">
-      <Countdown {...{ renderer, date, ...props }} />
-    </div>
+    <div className="countdown-container">{eventDate && !loading ? <Countdown {...{ renderer, ...props }} date={new Date(eventDate)} /> : <></>}</div>
   );
 };
 

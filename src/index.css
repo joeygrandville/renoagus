@@ -15,10 +15,7 @@ main {
 .bg-gradient,
 .gm-style-iw,
 .bg-radio input:checked ~ span.checkmark,
-.bg-button,
-.home-welcome,
-.reward-container,
-.bg-black-red {
+.bg-button {
   background-image: -o-linear-gradient(45deg, #000, #730d0d 50%);
   background-image: -webkit-linear-gradient(45deg, #000, #730d0d 50%);
   background-image: -moz-linear-gradient(45deg, #000, #730d0d 50%);
@@ -121,7 +118,6 @@ input.bg-input {
   transition: background linear 0.3s;
 }
 
-.fp-viewing-home #fp-nav ul li a span,
-.fp-viewing-reward #fp-nav ul li a span {
+.fp-viewing-home #fp-nav ul li a span {
   background: #fff;
 }

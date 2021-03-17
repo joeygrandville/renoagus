@@ -1,6 +1,5 @@
 import { FormHelperText, Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import BgButton from "../../../components/BgButton";
 import { withRsvpStepStyles } from "../../../components/common.styles";
 import Form from "../../../components/Form";
@@ -20,14 +19,10 @@ const RsvpStep1 = withRsvpStepStyles(({ classes }) => {
     if (!value) return false;
     return onValidate(value).catch(({ message }) => setState((s) => ({ ...s, error: message })));
   };
-  const history = useHistory();
   useEffect(() => {
     setState((s) => {
       if (rsvp) {
-        setTimeout(() => {
-          onSubmit({ codigo: { value: rsvp } });
-          history.replace(`/?rsvp=${rsvp}#confirmation`);
-        }, 100);
+        setTimeout(() => onSubmit({ codigo: { value: rsvp } }), 100);
       }
       return { ...s, value: rsvp || s.value };
     });

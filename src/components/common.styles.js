@@ -1,5 +1,7 @@
 import { createMuiTheme, withStyles } from "@material-ui/core";
 import { array } from "./common";
+import bgHome from "../assets/bg-home.jpg";
+import bgGift from "../assets/bg-gift.jpg";
 
 export const transition = (t, args) =>
   t.transitions.create(args, {
@@ -35,8 +37,15 @@ export const bgText = {
 export const container = { maxWidth: 1170, margin: "0 auto", padding: "1rem 2rem", alignSelf: "center" };
 
 export const withHomeStyles = withStyles({
+  bg: {
+    backgroundImage: `url(${bgHome})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPositionX: "right",
+    backgroundPositionY: "center",
+  },
   root: { ...common, ...white, lineHeight: 1, fontSize: "1.25em", ...hs },
-  container: { ...container, maxWidth: undefined, textAlign: "center" },
+  container: { ...container, maxWidth: undefined, textAlign: "center", backgroundColor: "rgba(0, 0, 0, 0.4)" },
   counter: { margin: "0 -2rem" },
 });
 export const withRsvpStyles = withStyles({
@@ -131,3 +140,9 @@ export const withRsvpStepStyles = withStyles(
   }),
   { name: "rsvp-step" }
 );
+
+export const withGiftStyles = withStyles(() => ({
+  bg: { backgroundImage: `url(${bgGift})`, backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center" },
+  container: { ...container, padding: 0, ...white, ...hs, "@media (max-width: 1240px)": { padding: "0 50px 0 20px" } },
+  content: { padding: "1rem 2rem", display: "inline-block", backgroundColor: "rgba(0, 0, 0, 0.4)" },
+}));

@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { isEmail } from "../components/common";
 import initStore from "./initStore";
 
-const env = (path) => process.env[`REACT_APP_FIREBASE_${path}`];
+const env = (path, fb = true) => process.env[`REACT_APP_${fb ? "FIREBASE_" : ""}${path}`];
 
 const projectId = env("PROJECT_ID");
 
@@ -186,15 +186,10 @@ export const db = {
     once("settings").then((s) => {
       const val = s.val();
       if (!val) {
-        const nval = {
-          wamsg:
-            "¡¡FORMALIZAMOS!! y queremos compartirlo con ustedes.\r\nPor favor confirmá si podrás acompañarnos el 23 de Mayo, ingresando al siguiente link:\r\n{{url}}\r\nPodés hacerlo hasta el 23 de abril",
-          wadesk: true,
-        };
+        const { loading, ...nval } = initStore.settings;
         ref("settings").set(nval);
         return nval;
       }
-      console.log(val);
       return val;
     }),
 };

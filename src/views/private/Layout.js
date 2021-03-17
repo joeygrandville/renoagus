@@ -40,16 +40,18 @@ export const Toolbar = (props) => {
 const Layout = ({ children, login, ...props }) => {
   const auth = useFbContext();
   const history = useHistory();
-  const { user } = auth;
+  const { user, loaded } = auth;
   useEffect(() => {
-    if (login && user) history.replace("/admin");
-    if (!login && !user) history.replace("/login");
-  }, [user, history, login]);
+    if (loaded) {
+      if (login && user) history.replace("/admin");
+      if (!login && !user) history.replace("/login");
+    }
+  }, [user, history, login, loaded]);
   return (
     <>
       <ThemeProvider theme={privateTheme} {...props}>
         <CssBaseline />
-        {children}
+        {loaded ? children : "Cargando..."}
       </ThemeProvider>
     </>
   );

@@ -8,17 +8,15 @@ export const usePublicContext = () => useContext(PublicContext);
 
 const anchors = ["home", "location", "confirmation", "reward"];
 
-const date = new Date("2021-05-23T15:00:00Z");
-
 const PublicContextProvider = (props) => {
   const {
-    store: { estados: es, menus: ms },
+    store: { estados: es, menus: ms, settings },
     db: { getInvitado, postInvitado },
     parseInvitado,
   } = useFbContext();
   const estados = es.filter((e) => e.estado !== "Pendiente").map(({ id, descripcion, ...e }) => ({ id, text: descripcion, ...e }));
   const menus = ms.map(({ id, menu }) => ({ id, text: menu }));
-  const [state, setState] = useState({ home: true, step: 0, loading: false, date, ...anchors.reduce((ac, a, i) => ({ ...ac, [a]: i === 0 }), {}) });
+  const [state, setState] = useState({ home: true, step: 0, loading: false, ...anchors.reduce((ac, a, i) => ({ ...ac, [a]: i === 0 }), {}) });
   const { rsvp } = useQueryString();
   const showLoading = useCallback(() => setState((s) => ({ ...s, loading: true })), []);
   const hideLoading = useCallback(() => setState((s) => ({ ...s, loading: false })), []);
@@ -77,7 +75,7 @@ const PublicContextProvider = (props) => {
   useEffect(() => {
     require("./index.css");
   }, []);
-  return <PublicContext.Provider value={{ state, estados, anchors, actions, menus }} {...props} />;
+  return <PublicContext.Provider value={{ state, settings, estados, anchors, actions, menus }} {...props} />;
 };
 
 export default PublicContextProvider;

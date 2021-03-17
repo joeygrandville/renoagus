@@ -14,10 +14,10 @@ export const FbContextProvider = (props) => {
     if (!loaded) return;
     let mounted = true;
     if (mounted) {
+      getSettings().then((settings) => setStore((s) => ({ ...s, settings })));
       getEstados().then((estados) => setStore((s) => ({ ...s, estados, options: estados.map(({ id, estado }) => ({ id, text: estado })) })));
       getPaths().then((paths) => setStore((s) => ({ ...s, paths })));
       getMenus().then((menus) => setStore((s) => ({ ...s, menus })));
-      getSettings().then((settings) => setStore((s) => ({ ...s, settings })));
     }
     return () => (mounted = false);
   }, [loaded]);

@@ -48,14 +48,19 @@ const Header = withStyles((t) => {
       overflow: "hidden",
       flexGrow: 1,
       textOverflow: "ellipsis",
+      color: "#000",
       "@media (max-width: 380px)": { fontSize: "1.5rem" },
     },
     titleShadow: { "-webkit-filter": "drop-shadow(2px 2px 2px #FFF)", filter: "drop-shadow(2px 2px 2px #FFF)" },
     bgText,
+    bgDark: { backgroundColor: "rgba(0, 0, 0, 0.4)" },
     white,
   };
 })(({ classes }) => {
-  const { state } = usePublicContext();
+  const {
+    state,
+    settings: { loading, nombres },
+  } = usePublicContext();
   const [status, setStatus] = useState(state);
   useEffect(() => {
     const update = () => setStatus(["confirmation", "home", "location", "reward"].reduce((a, s) => ({ ...a, [s]: state[s] }), {}));
@@ -64,11 +69,9 @@ const Header = withStyles((t) => {
   }, [state.confirmation, state.home, state.location, state.reward]);
   const { confirmation, home, location, reward } = status;
   return (
-    <div className={clsx(classes.root, { [classes.in]: !home })}>
-      <div className={clsx(classes.container, { [classes.bgWhite]: confirmation, [classes.shadow]: !location })}>
-        <div className={clsx(classes.title, { [classes.white]: reward, [classes.bgText]: !reward, [classes.titleShadow]: location })}>
-          Agustín y Renata
-        </div>
+    <div className={clsx(classes.root, { [classes.in]: !home && !loading })}>
+      <div className={clsx(classes.container, { [classes.bgWhite]: confirmation, [classes.shadow]: !location, [classes.bgDark]: reward })}>
+        <div className={clsx(classes.title, { [classes.titleShadow]: location, [classes.white]: reward })}>{nombres}</div>
         <Counter />
       </div>
     </div>
